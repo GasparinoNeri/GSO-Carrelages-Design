@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="GsoCarrelages.Api/GsoCarrelages.Api.csproj" />
+  <Project Path="GsoCarrelages.Core/GsoCarrelages.Core.csproj" />
+  <Project Path="GsoCarrelages.Infrastructure/GsoCarrelages.Infrastructure.csproj" />
+</Solution>
