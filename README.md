@@ -140,31 +140,43 @@ Configuration utilisée :
 
 ### Importation de la base de données
 
-Depuis MySQL, importer le fichier :
+Créer d'abord la base de données :
 
-```text
-database/vente_carrelage.sql
+```sql
+CREATE DATABASE vente_carrelage;
 ```
 
-Exemple de commande :
+Puis importer le script SQL fourni :
 
 ```bash
 mysql -u root vente_carrelage < database/vente_carrelage.sql
 ```
+
+Le script crée les tables nécessaires ainsi que les données de démonstration utilisées par l'application.
 
 ### Lancement du backend
 
 Se placer dans :
 
 ```bash
-backend-dotnet
+cd backend-dotnet
 ```
 
-Puis exécuter :
+Restaurer les dépendances :
 
 ```bash
 dotnet restore
+```
+
+Compiler le projet :
+
+```bash
 dotnet build
+```
+
+Démarrer l’API :
+
+```bash
 dotnet run --project GsoCarrelages.Api
 ```
 
@@ -176,16 +188,21 @@ http://localhost:5071
 
 ### Lancement du frontend
 
-Se placer dans :
+Ouvrir un deuxième terminal puis se placer dans :
 
 ```bash
-frontend-angular
+cd frontend-angular
 ```
 
-Puis exécuter :
+Installer les dépendances Angular :
 
 ```bash
 npm install
+```
+
+Démarrer l'application Angular :
+
+```bash
 ng serve
 ```
 
