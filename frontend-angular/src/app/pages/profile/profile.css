@@ -1,0 +1,143 @@
+.profile-page {
+  min-height: 100vh;
+  padding: 40px;
+
+  background:
+    linear-gradient(
+      rgba(255,255,255,0.82),
+      rgba(255,255,255,0.82)
+    ),
+    url('/assets/gso-logo-bg.png');
+
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+.profile-layout {
+  max-width: 1200px;
+  margin: auto;
+
+  display: grid;
+  grid-template-columns: 320px 1fr;
+
+  gap: 30px;
+}
+
+.profile-sidebar {
+  background: white;
+
+  padding: 30px;
+
+  border-radius: 20px;
+
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+
+  text-align: center;
+}
+
+.profile-photo {
+  width: 180px;
+  height: 180px;
+
+  border-radius: 50%;
+
+  object-fit: cover;
+
+  border: 5px solid #1e3a5f;
+
+  margin-bottom: 15px;
+}
+
+.profile-sidebar h2 {
+  margin-bottom: 5px;
+  color: #1e3a5f;
+}
+
+.role {
+  color: #666;
+  margin-bottom: 25px;
+}
+
+.side-section {
+  margin-top: 25px;
+  text-align: left;
+}
+
+.side-section h3 {
+  color: #1e3a5f;
+  margin-bottom: 10px;
+}
+
+.profile-content {
+  background: white;
+
+  padding: 35px;
+
+  border-radius: 20px;
+
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+.profile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: 25px;
+}
+
+.profile-header h1 {
+  margin: 0;
+  color: #1e3a5f;
+}
+
+.profile-header button {
+  background: #1e3a5f;
+  color: white;
+
+  border: none;
+
+  padding: 12px 20px;
+
+  border-radius: 10px;
+
+  cursor: pointer;
+}
+
+.tabs {
+  display: flex;
+  gap: 25px;
+
+  margin-bottom: 30px;
+
+  border-bottom: 1px solid #ddd;
+}
+
+.tabs span {
+  padding-bottom: 10px;
+  cursor: pointer;
+}
+
+.tabs .active {
+  color: #1e3a5f;
+  font-weight: bold;
+  border-bottom: 3px solid #1e3a5f;
+}
+
+.info-section {
+  margin-bottom: 35px;
+}
+
+.info-section h2 {
+  color: #1e3a5f;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+
+  padding: 12px 0;
+
+  border-bottom: 1px solid #eee;
+}

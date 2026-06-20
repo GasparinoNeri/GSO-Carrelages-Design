@@ -1,0 +1,51 @@
+<section class="catalog-page">
+  <h1>Catalogue produits</h1>
+  @if (notification()) {
+  <div class="notification">
+    ✅ {{ notification() }}
+  </div>
+}
+
+  @if (isLoading()) {
+    <p>Chargement des produits...</p>
+  } @else {
+
+    <div class="product-grid">
+
+      @for (product of products(); track product.idProduit) {
+
+       <article class="product-card">
+        <h2>{{ product.nom }}</h2>
+
+        <p>{{ product.description }}</p>
+
+        <p class="price">
+            {{ product.prixUnitaire }} €
+        </p>
+
+        <p>
+            Stock : {{ product.stockOnHand }}
+        </p>
+
+        <div class="product-actions">
+
+
+        <div class="product-actions">
+          <a [routerLink]="['/product', product.idProduit]">
+            Voir le produit
+          </a>
+
+          <button type="button" (click)="addToCart(product)">
+            Ajouter au panier
+          </button>
+        </div>
+
+        </div>
+
+        </article>
+      }
+
+    </div>
+
+  }
+</section>

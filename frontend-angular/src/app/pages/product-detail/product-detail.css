@@ -1,0 +1,42 @@
+.product-detail-page {
+  min-height: 100vh;
+  padding: 40px;
+
+  background:
+    linear-gradient(
+      rgba(255,255,255,0.82),
+      rgba(255,255,255,0.82)
+    ),
+    url('/assets/gso-logo-bg.png');
+
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+.product-container {
+  background: white;
+
+  max-width: 700px;
+  margin: auto;
+
+  padding: 30px;
+
+  border-radius: 16px;
+
+  box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+}
+
+.product-container h1 {
+  color: #1e3a5f;
+}
+
+.description {
+  margin: 20px 0;
+}
+
+.price {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #2c5d8a;
+}

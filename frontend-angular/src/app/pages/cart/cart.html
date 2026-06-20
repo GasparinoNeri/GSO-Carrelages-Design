@@ -1,0 +1,26 @@
+<section class="cart-page">
+  <h1>Panier</h1>
+
+  @if (cartService.items().length === 0) {
+    <p>Votre panier est vide.</p>
+  } @else {
+    <div class="cart-list">
+      @for (item of cartService.items(); track item.product.idProduit) {
+        <article class="cart-item">
+          <div>
+            <strong>{{ item.product.nom }}</strong>
+            <p>Prix : {{ item.product.prixUnitaire }} €</p>
+          </div>
+
+          <button (click)="removeItem(item.product.idProduit)">
+            Supprimer
+          </button>
+        </article>
+      }
+    </div>
+
+    <h2>Total : {{ cartService.total() }} €</h2>
+
+    <button (click)="clearCart()">Vider le panier</button>
+  }
+</section>

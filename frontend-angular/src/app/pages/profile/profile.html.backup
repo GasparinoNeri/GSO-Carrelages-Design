@@ -1,0 +1,13 @@
+<section class="profile-page">
+  <div class="profile-card">
+    <h1>Profil administrateur</h1>
+
+    <div class="profile-info">
+      <p><strong>Nom :</strong> Neri</p>
+      <p><strong>Prénom :</strong> Gasparino</p>
+      <p><strong>Email :</strong> ririneri.1997@gmail.com</p>
+      <p><strong>Téléphone :</strong> 0491 75 44 63</p>
+      <p><strong>Rôle :</strong> Administrateur</p>
+    </div>
+  </div>
+</section>

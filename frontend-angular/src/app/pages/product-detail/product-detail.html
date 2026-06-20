@@ -1,0 +1,41 @@
+<section class="product-detail-page">
+
+  @if (isLoading()) {
+
+    <p>Chargement du produit...</p>
+
+  } @else {
+
+    @if (product()) {
+
+      <div class="product-container">
+
+        <h1>{{ product()!.nom }}</h1>
+
+        <p class="description">
+          {{ product()!.description }}
+        </p>
+
+        <p class="price">
+          Prix : {{ product()!.prixUnitaire }} €
+        </p>
+
+        <p>
+          Stock disponible : {{ product()!.stockOnHand }}
+        </p>
+
+        <a routerLink="/catalog">
+          Retour au catalogue
+        </a>
+
+      </div>
+
+    } @else {
+
+      <p>Produit introuvable.</p>
+
+    }
+
+  }
+
+</section>

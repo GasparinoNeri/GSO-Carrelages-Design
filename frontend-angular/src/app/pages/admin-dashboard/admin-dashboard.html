@@ -1,0 +1,37 @@
+<section class="admin-page">
+  <h1>Administration des produits</h1>
+
+  <form class="product-form" (ngSubmit)="saveProduct()">
+    <h2>{{ formProduct.idProduit === 0 ? 'Ajouter un produit' : 'Modifier un produit' }}</h2>
+
+    <input name="nom" [(ngModel)]="formProduct.nom" placeholder="Nom du produit" required />
+    <textarea name="description" [(ngModel)]="formProduct.description" placeholder="Description"></textarea>
+    <input name="prix" type="number" [(ngModel)]="formProduct.prixUnitaire" placeholder="Prix" required />
+    <input name="stock" type="number" [(ngModel)]="formProduct.stockOnHand" placeholder="Stock" required />
+
+    <button type="submit">
+    {{ formProduct.idProduit === 0 ? 'Ajouter' : 'Modifier' }}
+    </button>
+
+    <button type="button" (click)="resetForm()">
+    Annuler
+    </button>
+    
+  </form>
+
+  <div class="products-list">
+    @for (product of products(); track product.idProduit) {
+      <article class="product-row">
+        <div>
+          <strong>{{ product.nom }}</strong>
+          <p>{{ product.prixUnitaire }} € — Stock : {{ product.stockOnHand }}</p>
+        </div>
+
+        <div>
+          <button (click)="editProduct(product)">Modifier</button>
+          <button (click)="deleteProduct(product.idProduit)">Supprimer</button>
+        </div>
+      </article>
+    }
+  </div>
+</section>

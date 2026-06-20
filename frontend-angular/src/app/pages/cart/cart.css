@@ -1,0 +1,40 @@
+.cart-page {
+  min-height: 100vh;
+  padding: 40px;
+
+  background:
+    linear-gradient(
+      rgba(255,255,255,0.82),
+      rgba(255,255,255,0.82)
+    ),
+    url('/assets/gso-logo-bg.png');
+
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+.cart-page h1,
+.cart-page h2 {
+  color: #1f3f6f;
+}
+
+.cart-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.cart-item {
+  background: white;
+  color: black;
+
+  padding: 20px;
+
+  border-radius: 12px;
+
+  display: flex;
+  justify-content: space-between;
+
+  box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+}
