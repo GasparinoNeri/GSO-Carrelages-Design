@@ -2,20 +2,37 @@
 
 Projet réalisé dans le cadre du cours **Projet de développement web**.
 
-Ce projet consiste à développer une application web de vente et de gestion de carrelages, en se basant sur le dossier d’analyse et de conception réalisé précédemment.
+## Présentation
+
+GSO Carrelages & Design est une application web permettant la consultation et la gestion d'un catalogue de carrelages.
+
+Le projet est développé selon une architecture séparée :
+
+* Frontend Angular
+* Backend ASP.NET Core Web API
+* Base de données MySQL
+
+Le backend respecte les principes de la **Clean Architecture** vus au cours :
+
+* Séparation des responsabilités
+* Architecture en couches
+* Utilisation exclusive de Dapper pour l'accès aux données
+* Respect des principes SOLID
+
+---
 
 ## Technologies utilisées
 
 ### Frontend
 
-* Angular
+* Angular 21
 * TypeScript
 * HTML
 * CSS
 
 ### Backend
 
-* ASP.NET Core Web API
+* ASP.NET Core Web API (.NET 10)
 * C#
 * Dapper
 
@@ -23,26 +40,14 @@ Ce projet consiste à développer une application web de vente et de gestion de 
 
 * MySQL
 
-## Description
-
-GSO Carrelages & Design est une application web permettant la consultation et la gestion d’un catalogue de carrelages.
-
-Le projet utilise une architecture séparée :
-
-* Frontend Angular
-* Backend ASP.NET Core Web API
-* Base de données MySQL
-
-L’application permet à un utilisateur de consulter les produits disponibles, visualiser le détail d’un produit et gérer un panier.
-
-Un administrateur peut également se connecter afin d’ajouter, modifier ou supprimer des produits.
+---
 
 ## Fonctionnalités
 
 ### Visiteur
 
 * Consultation du catalogue
-* Consultation du détail d’un produit
+* Consultation du détail d'un produit
 * Ajout de produits au panier
 * Suppression de produits du panier
 * Calcul automatique du total du panier
@@ -50,10 +55,13 @@ Un administrateur peut également se connecter afin d’ajouter, modifier ou sup
 ### Administrateur
 
 * Connexion administrateur
-* Ajout d’un produit
-* Modification d’un produit
-* Suppression d’un produit
+* Consultation des produits
+* Ajout d'un produit
+* Modification d'un produit
+* Suppression d'un produit
 * Consultation du profil administrateur
+
+---
 
 ## Architecture du projet
 
@@ -65,23 +73,7 @@ GSO-Carrelages-Design
 └── README.md
 ```
 
-### Frontend Angular
-
-Pages principales :
-
-* Accueil
-* Catalogue
-* Détail produit
-* Panier
-* Connexion
-* Administration
-* Profil
-
-Les appels vers l’API sont réalisés avec `HttpClient` dans des services Angular.
-
-### Backend .NET
-
-Le backend respecte une architecture en couches :
+### Architecture Backend
 
 ```text
 backend-dotnet
@@ -90,25 +82,109 @@ backend-dotnet
 └── GsoCarrelages.Infrastructure
 ```
 
-* `GsoCarrelages.Api` contient les contrôleurs de l’API.
-* `GsoCarrelages.Core` contient les entités et interfaces.
-* `GsoCarrelages.Infrastructure` contient l’accès aux données avec Dapper.
+#### GsoCarrelages.Api
+
+* Contrôleurs API
+* Configuration de l'application
+* Point d'entrée du projet
+
+#### GsoCarrelages.Core
+
+* Entités métier
+* Interfaces
+
+#### GsoCarrelages.Infrastructure
+
+* Accès aux données
+* Repositories Dapper
+* Gestion des connexions MySQL
+
+---
 
 ## Base de données
 
-Le script SQL se trouve dans :
+Le script SQL fourni se trouve dans :
 
 ```text
 database/vente_carrelage.sql
 ```
 
-La base de données utilisée s’appelle :
+Nom de la base de données :
 
 ```text
 vente_carrelage
 ```
 
-## Configuration de la base de données
+---
+
+## Données de démonstration
+
+Après import du script SQL, la base contient :
+
+* 4 produits de démonstration
+* 3 catégories
+* 1 fournisseur
+* 1 compte administrateur
+
+Compte administrateur :
+
+```text
+Email : admin@gso.be
+Mot de passe : admin123
+```
+
+---
+
+## Prérequis
+
+Avant de lancer le projet, installer :
+
+* .NET SDK 10
+* Node.js
+* npm
+* MySQL
+
+Versions utilisées durant le développement :
+
+* .NET SDK 10.0.301
+* Angular CLI 21.2.7
+* Node.js 25.8.0
+* MySQL 9.5.0
+
+---
+
+## Installation de la base de données
+
+Créer la base :
+
+```sql
+CREATE DATABASE vente_carrelage;
+```
+
+### Import du script SQL
+
+#### macOS / Linux
+
+```bash
+mysql -u root -p vente_carrelage < database/vente_carrelage.sql
+```
+
+#### Windows PowerShell
+
+```powershell
+Get-Content database\vente_carrelage.sql | mysql -u root -p vente_carrelage
+```
+
+Le script crée automatiquement :
+
+* Les tables
+* Les contraintes
+* Les données de démonstration
+* Le compte administrateur
+
+---
+
+## Configuration de la connexion MySQL
 
 La chaîne de connexion se trouve dans :
 
@@ -116,47 +192,29 @@ La chaîne de connexion se trouve dans :
 backend-dotnet/GsoCarrelages.Api/appsettings.json
 ```
 
-Configuration utilisée :
+Configuration par défaut :
 
 ```json
 "DefaultConnection": "Server=localhost;Port=3306;Database=vente_carrelage;Uid=root;"
 ```
 
-## Installation et lancement
+Si votre compte MySQL possède un mot de passe :
 
-### Prérequis
-
-* .NET SDK 10.0
-* Node.js
-* Angular CLI
-* MySQL
-
-### Versions utilisées
-
-* .NET 10.0.202
-* Angular CLI 21.2.7
-* Node.js 25.8.0
-* MySQL 9.5.0
-
-### Importation de la base de données
-
-Créer d'abord la base de données :
-
-```sql
-CREATE DATABASE vente_carrelage;
+```json
+"DefaultConnection": "Server=localhost;Port=3306;Database=vente_carrelage;Uid=root;Pwd=VOTRE_MOT_DE_PASSE;"
 ```
 
-Puis importer le script SQL fourni :
+Exemple :
 
-```bash
-mysql -u root vente_carrelage < database/vente_carrelage.sql
+```json
+"DefaultConnection": "Server=localhost;Port=3306;Database=vente_carrelage;Uid=root;Pwd=Police21;"
 ```
 
-Le script crée les tables nécessaires ainsi que les données de démonstration utilisées par l'application.
+---
 
-### Lancement du backend
+## Lancement du backend
 
-Se placer dans :
+Depuis la racine du projet :
 
 ```bash
 cd backend-dotnet
@@ -174,7 +232,7 @@ Compiler le projet :
 dotnet build
 ```
 
-Démarrer l’API :
+Démarrer l'API :
 
 ```bash
 dotnet run --project GsoCarrelages.Api
@@ -186,43 +244,83 @@ L'API démarre sur :
 http://localhost:5071
 ```
 
-### Lancement du frontend
+---
 
-Ouvrir un deuxième terminal puis se placer dans :
+## Lancement du frontend
+
+Ouvrir un second terminal puis se placer dans :
 
 ```bash
 cd frontend-angular
 ```
 
-Installer les dépendances Angular :
+Installer les dépendances :
 
 ```bash
 npm install
 ```
 
-Démarrer l'application Angular :
+Sous Windows PowerShell, si les scripts sont bloqués :
+
+```powershell
+npm.cmd install
+```
+
+Démarrer Angular :
 
 ```bash
 ng serve
 ```
 
-L'application est accessible à l'adresse :
+ou sous Windows :
+
+```powershell
+npx.cmd ng serve
+```
+
+L'application est accessible à :
 
 ```text
 http://localhost:4200
 ```
 
-## Compte de démonstration
+---
 
-Pour accéder à la partie administration :
+## Vérification du bon fonctionnement
+
+### Vérification de l'API
+
+Ouvrir :
 
 ```text
-Email : ririneri.1997@gmail.com
-Mot de passe : Gasparino0411
+http://localhost:5071/api/Products
 ```
+
+Cette URL doit retourner la liste des produits au format JSON.
+
+### Vérification du frontend
+
+Ouvrir :
+
+```text
+http://localhost:4200
+```
+
+Le catalogue doit afficher les produits présents dans la base de données.
+
+### Vérification de la connexion administrateur
+
+Utiliser les identifiants suivants :
+
+```text
+Email : admin@gso.be
+Mot de passe : admin123
+```
+
+---
 
 ## Auteur
 
-Gasparino Neri
+**Gasparino Neri**
 
 Projet réalisé dans le cadre du cours **Projet de développement web**.
