@@ -315,7 +315,11 @@ CREATE TABLE `produits` (
 
 LOCK TABLES `produits` WRITE;
 /*!40000 ALTER TABLE `produits` DISABLE KEYS */;
-INSERT INTO `produits` VALUES (4,'Carrelage marbre blanc ','Carrelage effet marbre pour intérieur',1,1,29.90,50,0,600,600,10,22.500,1),(5,'Carrelage béton gris','Carrelage moderne effet béton',1,1,24.90,80,0,600,600,9,21.000,1),(6,'Mosaïque salle de bain','Mosaïque adaptée aux murs de salle de bain',3,1,19.90,100,0,300,300,8,18.000,1),(7,'Carrelage en marbre','Marbre turque',1,1,23.00,16,0,NULL,NULL,NULL,NULL,1),(8,'','',1,1,0.00,0,0,NULL,NULL,NULL,NULL,1),(9,'','',1,1,0.00,0,0,NULL,NULL,NULL,NULL,1),(10,'','',1,1,0.00,0,0,NULL,NULL,NULL,NULL,1),(11,'','',1,1,0.00,0,0,NULL,NULL,NULL,NULL,1),(12,'','',1,1,0.00,0,0,NULL,NULL,NULL,NULL,1),(13,'','',1,1,0.00,0,0,NULL,NULL,NULL,NULL,1),(14,'','',1,1,0.00,0,0,NULL,NULL,NULL,NULL,1),(15,'','',1,1,0.00,0,0,NULL,NULL,NULL,NULL,1),(16,'','',1,1,0.00,0,0,NULL,NULL,NULL,NULL,1),(17,'','',1,1,0.00,0,0,NULL,NULL,NULL,NULL,1),(18,'','',1,1,0.00,0,0,NULL,NULL,NULL,NULL,1),(19,'','',1,1,0.00,0,0,NULL,NULL,NULL,NULL,1),(20,'','',1,1,0.00,0,0,NULL,NULL,NULL,NULL,1),(21,'','',1,1,0.00,0,0,NULL,NULL,NULL,NULL,1);
+INSERT INTO `produits` VALUES
+(4,'Carrelage marbre blanc','Carrelage effet marbre pour intérieur',1,1,29.90,50,0,600,600,10,22.500,1),
+(5,'Carrelage béton gris','Carrelage moderne effet béton',1,1,24.90,80,0,600,600,9,21.000,1),
+(6,'Mosaïque salle de bain','Mosaïque adaptée aux murs de salle de bain',3,1,19.90,100,0,300,300,8,18.000,1),
+(7,'Carrelage en marbre','Marbre turque',1,1,23.00,16,0,NULL,NULL,NULL,NULL,1);
 /*!40000 ALTER TABLE `produits` ENABLE KEYS */;
 UNLOCK TABLES;
 
