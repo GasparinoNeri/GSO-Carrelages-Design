@@ -1,6 +1,10 @@
-using GsoCarrelages.Core.Interfaces;
+using GsoCarrelages.Core.IGateways;
+using GsoCarrelages.Core.UseCases;
+using GsoCarrelages.Core.UseCases.Abstractions;
 using GsoCarrelages.Infrastructure.Data;
+using GsoCarrelages.Infrastructure.Gateways;
 using GsoCarrelages.Infrastructure.Repositories;
+using GsoCarrelages.Infrastructure.Repositories.Abstractions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,14 +22,29 @@ builder.Services.AddCors(options =>
     });
 });
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+var connectionString =
+    builder.Configuration.GetConnectionString("DefaultConnection");
 
 if (string.IsNullOrWhiteSpace(connectionString))
 {
-    throw new InvalidOperationException("La chaîne de connexion DefaultConnection est manquante.");
+    throw new InvalidOperationException(
+        "La chaîne de connexion DefaultConnection est manquante."
+    );
 }
 
-builder.Services.AddSingleton(new DbConnectionFactory(connectionString));
+builder.Services.AddSingleton(
+    new DbConnectionFactory(connectionString)
+);
+
+// UseCases
+builder.Services.AddScoped<IProductUseCases, ProductUseCases>();
+builder.Services.AddScoped<IAuthUseCases, AuthUseCases>();
+
+// Gateways
+builder.Services.AddScoped<IProductGateway, ProductGateway>();
+builder.Services.AddScoped<IUserGateway, UserGateway>();
+
+// Repositories
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
@@ -37,9 +56,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseCors("AngularPolicy");
-
 app.MapControllers();
 
 app.Run();

@@ -1,4 +1,4 @@
-using GsoCarrelages.Core.Interfaces;
+using GsoCarrelages.Core.UseCases.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GsoCarrelages.Api.Controllers;
@@ -7,17 +7,17 @@ namespace GsoCarrelages.Api.Controllers;
 [Route("api/[controller]")]
 public class AuthController : ControllerBase
 {
-    private readonly IUserRepository _userRepository;
+    private readonly IAuthUseCases _authUseCases;
 
-    public AuthController(IUserRepository userRepository)
+    public AuthController(IAuthUseCases authUseCases)
     {
-        _userRepository = userRepository;
+        _authUseCases = authUseCases;
     }
 
     [HttpPost("login")]
     public async Task<IActionResult> Login(LoginRequest request)
     {
-        var user = await _userRepository.GetByEmailAndPasswordAsync(
+        var user = await _authUseCases.LoginAsync(
             request.Email,
             request.Password
         );

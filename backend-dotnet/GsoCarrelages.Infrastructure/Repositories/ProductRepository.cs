@@ -1,6 +1,6 @@
 using Dapper;
-using GsoCarrelages.Core.Entities;
-using GsoCarrelages.Core.Interfaces;
+using GsoCarrelages.Infrastructure.Models;
+using GsoCarrelages.Infrastructure.Repositories.Abstractions;
 using GsoCarrelages.Infrastructure.Data;
 
 namespace GsoCarrelages.Infrastructure.Repositories;

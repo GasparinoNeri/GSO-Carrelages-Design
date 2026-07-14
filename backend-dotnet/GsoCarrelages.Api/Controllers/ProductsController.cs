@@ -1,6 +1,6 @@
-using GsoCarrelages.Core.Interfaces;
-using Microsoft.AspNetCore.Mvc;
 using GsoCarrelages.Core.Entities;
+using GsoCarrelages.Core.UseCases.Abstractions;
+using Microsoft.AspNetCore.Mvc;
 
 namespace GsoCarrelages.Api.Controllers;
 
@@ -8,17 +8,17 @@ namespace GsoCarrelages.Api.Controllers;
 [Route("api/[controller]")]
 public class ProductsController : ControllerBase
 {
-    private readonly IProductRepository _productRepository;
+    private readonly IProductUseCases _productUseCases;
 
-    public ProductsController(IProductRepository productRepository)
+    public ProductsController(IProductUseCases productUseCases)
     {
-        _productRepository = productRepository;
+        _productUseCases = productUseCases;
     }
 
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
-        var products = await _productRepository.GetAllAsync();
+        var products = await _productUseCases.GetAllAsync();
 
         return Ok(products);
     }
@@ -26,7 +26,7 @@ public class ProductsController : ControllerBase
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(long id)
     {
-        var product = await _productRepository.GetByIdAsync(id);
+        var product = await _productUseCases.GetByIdAsync(id);
 
         if (product is null)
         {
@@ -39,7 +39,7 @@ public class ProductsController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Create(Product product)
     {
-        var newId = await _productRepository.CreateAsync(product);
+        var newId = await _productUseCases.CreateAsync(product);
 
         product.IdProduit = newId;
 
@@ -54,7 +54,7 @@ public class ProductsController : ControllerBase
             return BadRequest("L'id du produit ne correspond pas.");
         }
 
-        var updated = await _productRepository.UpdateAsync(product);
+        var updated = await _productUseCases.UpdateAsync(product);
 
         if (!updated)
         {
@@ -67,7 +67,7 @@ public class ProductsController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(long id)
     {
-        var deleted = await _productRepository.DeleteAsync(id);
+        var deleted = await _productUseCases.DeleteAsync(id);
 
         if (!deleted)
         {
