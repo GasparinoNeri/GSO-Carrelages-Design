@@ -4,5 +4,5 @@ obj/
 .vs/
 .DS_Store
 *.user
-*.suodatabase/vente_carrelage_backup.sql
+*.suo
 database/vente_carrelage_backup.sql
