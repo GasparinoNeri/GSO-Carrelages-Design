@@ -1,3 +1,4 @@
+using BCrypt.Net;
 using GsoCarrelages.Core.Entities;
 using GsoCarrelages.Core.IGateways;
 using GsoCarrelages.Core.UseCases.Abstractions;
@@ -14,8 +15,91 @@ public class AuthUseCases : IAuthUseCases
             ?? throw new ArgumentNullException(nameof(userGateway));
     }
 
-    public Task<User?> LoginAsync(string email, string password)
+    public async Task<User?> LoginAsync(string email, string password)
     {
-        return _userGateway.GetByEmailAndPasswordAsync(email, password);
+        var user = await _userGateway.GetByEmailAsync(email);
+
+        if (user is null)
+        {
+            return null;
+        }
+
+        var passwordIsValid = BCrypt.Net.BCrypt.Verify(
+            password,
+            user.MotDePasse
+        );
+
+        if (!passwordIsValid)
+        {
+            return null;
+        }
+
+        return user;
+    }
+
+    public async Task<long> RegisterAsync(User user)
+    {
+        if (string.IsNullOrWhiteSpace(user.Nom))
+        {
+            throw new ArgumentException("Le nom est obligatoire.");
+        }
+
+        if (string.IsNullOrWhiteSpace(user.Email))
+        {
+            throw new ArgumentException("L'email est obligatoire.");
+        }
+
+        if (string.IsNullOrWhiteSpace(user.MotDePasse) ||
+            user.MotDePasse.Length < 8)
+        {
+            throw new ArgumentException(
+                "Le mot de passe doit contenir au moins 8 caractères."
+            );
+        }
+
+        if (await _userGateway.EmailExistsAsync(user.Email))
+        {
+            throw new InvalidOperationException(
+                "Cette adresse e-mail est déjà utilisée."
+            );
+        }
+
+        user.MotDePasse = BCrypt.Net.BCrypt.HashPassword(
+            user.MotDePasse
+        );
+
+        user.Role = "client";
+        user.Actif = true;
+
+        return await _userGateway.CreateAsync(user);
+    }
+
+    public Task<User?> GetProfileAsync(long id)
+    {
+        return _userGateway.GetByIdAsync(id);
+    }
+
+    public async Task<bool> UpdateProfileAsync(User user)
+    {
+        var existingUser = await _userGateway.GetByIdAsync(user.IdUtilisateur);
+
+        if (existingUser is null)
+        {
+            return false;
+        }
+
+        if (string.IsNullOrWhiteSpace(user.Nom))
+        {
+            throw new ArgumentException("Le nom est obligatoire.");
+        }
+
+        existingUser.Nom = user.Nom;
+        existingUser.Prenom = user.Prenom;
+        existingUser.Telephone = user.Telephone;
+        existingUser.Adresse = user.Adresse;
+        existingUser.DateNaissance = user.DateNaissance;
+        existingUser.PhotoProfil = user.PhotoProfil;
+
+        return await _userGateway.UpdateAsync(existingUser);
     }
 }

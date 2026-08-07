@@ -25,12 +25,16 @@ export class Login {
       this.email,
       this.password
     ).subscribe({
-      next: () => {
-        this.router.navigate(['/admin']);
-      },
-      error: () => {
-        this.errorMessage = 'Email ou mot de passe incorrect';
-      }
+        next: (user) => {
+        if (user.role === 'admin') {
+          this.router.navigate(['/admin']);
+        } else {
+          this.router.navigate(['/profile']);
+        }
+        },
+        error: () => {
+          this.errorMessage = 'Email ou mot de passe incorrect';
+        }
     });
   }
 }

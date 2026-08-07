@@ -4,8 +4,13 @@ namespace GsoCarrelages.Infrastructure.Repositories.Abstractions;
 
 public interface IUserRepository
 {
-    Task<User?> GetByEmailAndPasswordAsync(
-        string email,
-        string password
-    );
+    Task<User?> GetByEmailAsync(string email);
+
+    Task<User?> GetByIdAsync(long id);
+
+    Task<long> CreateAsync(User user);
+
+    Task<bool> UpdateAsync(User user);
+
+    Task<bool> EmailExistsAsync(string email);
 }
