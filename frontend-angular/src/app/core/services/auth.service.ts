@@ -1,6 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
+
 import { RegisterRequest, User } from '../models/user.model';
 
 @Injectable({
@@ -35,21 +36,10 @@ export class AuthService {
     );
   }
 
-  logout(): void {
-    this.currentUser.set(null);
-    localStorage.removeItem('currentUser');
-  }
-
-  isAdmin(): boolean {
-    return this.currentUser()?.role === 'admin';
-  }
-
-  isLoggedIn(): boolean {
-    return this.currentUser() !== null;
-  }
-
   getProfile(id: number): Observable<User> {
-    return this.http.get<User>(`${this.apiUrl}/profile/${id}`);
+    return this.http.get<User>(
+      `${this.apiUrl}/profile/${id}`
+    );
   }
 
   updateProfile(
@@ -73,16 +63,31 @@ export class AuthService {
     );
   }
 
+  logout(): void {
+    this.currentUser.set(null);
+    sessionStorage.removeItem('currentUser');
+    localStorage.removeItem('currentUser');
+  }
+
+  isLoggedIn(): boolean {
+    return this.currentUser() !== null;
+  }
+
+  isAdmin(): boolean {
+    return this.currentUser()?.role === 'admin';
+  }
+
   private saveUser(user: User): void {
     this.currentUser.set(user);
-    localStorage.setItem(
+
+    sessionStorage.setItem(
       'currentUser',
       JSON.stringify(user)
     );
   }
 
   private getStoredUser(): User | null {
-    const storedUser = localStorage.getItem('currentUser');
+    const storedUser = sessionStorage.getItem('currentUser');
 
     if (!storedUser) {
       return null;
@@ -91,7 +96,7 @@ export class AuthService {
     try {
       return JSON.parse(storedUser) as User;
     } catch {
-      localStorage.removeItem('currentUser');
+      sessionStorage.removeItem('currentUser');
       return null;
     }
   }

@@ -1,97 +1,594 @@
 <section class="profile-page">
+
   <div class="profile-layout">
 
     <aside class="profile-sidebar">
-      @if (user()?.photoProfil) {
-        <img
-          [src]="user()?.photoProfil"
-          alt="Photo de profil"
-          class="profile-photo"
-        >
-      } @else {
-        <div class="profile-photo profile-placeholder">
-          {{ user()?.prenom?.charAt(0) || '' }}{{ user()?.nom?.charAt(0) || '' }}
+
+      <div class="sidebar-top">
+
+        @if (user()?.photoProfil) {
+          <img
+            [src]="user()?.photoProfil"
+            alt="Photo de profil"
+            class="profile-photo"
+          >
+        } @else {
+          <div class="profile-photo profile-placeholder">
+            {{ user()?.prenom?.charAt(0) || '' }}{{ user()?.nom?.charAt(0) || '' }}
+          </div>
+        }
+
+        <h2>
+          {{ user()?.nom }} {{ user()?.prenom }}
+        </h2>
+
+        <span class="role-badge">
+          {{ user()?.role === 'admin' ? 'Administrateur' : 'Client' }}
+        </span>
+
+      </div>
+
+      <div class="sidebar-divider"></div>
+
+      <div class="side-section">
+
+        <h3>Contact</h3>
+
+        <div class="contact-item">
+          <span class="contact-icon">✉</span>
+
+          <div>
+            <small>Email</small>
+            <strong>{{ user()?.email }}</strong>
+          </div>
         </div>
+
+        <div class="contact-item">
+          <span class="contact-icon">☎</span>
+
+          <div>
+            <small>Téléphone</small>
+            <strong>
+              {{ user()?.telephone || 'Non renseigné' }}
+            </strong>
+          </div>
+        </div>
+
+      </div>
+
+      @if (user()?.role === 'admin') {
+
+        <div class="sidebar-divider"></div>
+
+        <div class="side-section">
+
+          <h3>Compétences</h3>
+
+          <div class="skill-item">
+            <span>✓</span>
+            Gestion de projet
+          </div>
+
+          <div class="skill-item">
+            <span>✓</span>
+            Relation client
+          </div>
+
+          <div class="skill-item">
+            <span>✓</span>
+            Analyse & stratégie
+          </div>
+
+        </div>
+
       }
 
-      <h2>{{ user()?.nom }} {{ user()?.prenom }}</h2>
-      <p class="role">
-        {{ user()?.role === 'admin' ? 'Administrateur' : 'Client' }}
-      </p>
+      <div class="sidebar-bottom">
 
-      <div class="side-section">
-        <h3>Contact</h3>
-        <p>📧 {{ user()?.email }}</p>
-        <p>📞 0491 75 44 63</p>
+        <button
+          type="button"
+          class="logout-btn"
+          (click)="logout()"
+        >
+          Se déconnecter
+        </button>
+
       </div>
 
-      <div class="side-section">
-        <h3>Compétences</h3>
-        <p>✔ Gestion de projet</p>
-        <p>✔ Relation client</p>
-        <p>✔ Analyse & stratégie</p>
-      </div>
     </aside>
 
+
     <main class="profile-content">
+
       <div class="profile-header">
+
         <div>
-          <h1>{{ user()?.nom }} {{ user()?.prenom }}</h1>
+
+          <h1>
+            {{ user()?.nom }} {{ user()?.prenom }}
+          </h1>
+
           <p>
             {{ user()?.role === 'admin' ? 'Administrateur' : 'Client' }}
             — GSO Carrelages & Design
           </p>
+
         </div>
 
-        <button>Modifier le profil</button>
+        @if (!isEditing && activeTab === 'informations') {
+
+          <button
+            type="button"
+            class="edit-profile-btn"
+            (click)="startEditing()"
+          >
+            Modifier le profil
+          </button>
+
+        }
+
       </div>
+
 
       <div class="tabs">
-        <span class="active">Informations</span>
-        <span>Commandes</span>
-        <span>Paramètres</span>
+
+        <button
+          type="button"
+          [class.active]="activeTab === 'informations'"
+          (click)="setActiveTab('informations')"
+        >
+          Informations
+        </button>
+
+        @if (user()?.role !== 'admin') {
+
+          <button
+            type="button"
+            [class.active]="activeTab === 'commandes'"
+            (click)="setActiveTab('commandes')"
+          >
+            Commandes
+          </button>
+
+        }
+
+        <button
+          type="button"
+          [class.active]="activeTab === 'parametres'"
+          (click)="setActiveTab('parametres')"
+        >
+          Paramètres
+        </button>
+
       </div>
 
-      <section class="info-section">
-        <h2>Informations de contact</h2>
 
-        <div class="info-row">
-          <span>Email</span>
-          <strong>ririneri.1997&#64;gmail.com</strong>
+      @if (successMessage) {
+
+        <div class="feedback success">
+          {{ successMessage }}
         </div>
 
-        <div class="info-row">
-          <span>Téléphone</span>
-          <strong>{{ user()?.telephone || '-' }}</strong>
-        </div>
+      }
 
-        <div class="info-row">
-          <span>Adresse</span>
-          <strong>{{ user()?.adresse || '-' }}</strong>
-        </div>
-      </section>
 
-      <section class="info-section">
-        <h2>Informations personnelles</h2>
+      @if (isEditing) {
 
-        <div class="info-row">
-          <span>Date de naissance</span>
-          <strong>{{ user()?.dateNaissance || '-' }}</strong>
-        </div>
+        <section class="content-card">
 
-        <div class="info-row">
-          <span>Rôle</span>
-          <strong>
-            {{ user()?.role === 'admin' ? 'Administrateur' : 'Client' }}
-          </strong>
-        </div>
+          <div class="card-heading">
 
-        <div class="info-row">
-          <span>Membre depuis</span>
-          <strong>{{ user()?.createdAt || '-' }}</strong>
-        </div>
-      </section>
+            <div class="card-heading-icon">✎</div>
+
+            <div>
+              <h2>Modifier mes informations</h2>
+              <p>
+                Mettez à jour les informations de votre profil.
+              </p>
+            </div>
+
+          </div>
+
+          <div class="edit-form">
+
+            <div class="form-grid">
+
+              <div class="field-group">
+                <label for="profile-nom">
+                  Nom
+                </label>
+
+                <input
+                  id="profile-nom"
+                  name="profileNom"
+                  type="text"
+                  [(ngModel)]="nom"
+                  required
+                >
+              </div>
+
+              <div class="field-group">
+                <label for="profile-prenom">
+                  Prénom
+                </label>
+
+                <input
+                  id="profile-prenom"
+                  name="profilePrenom"
+                  type="text"
+                  [(ngModel)]="prenom"
+                >
+              </div>
+
+              <div class="field-group">
+                <label for="profile-telephone">
+                  Téléphone
+                </label>
+
+                <input
+                  id="profile-telephone"
+                  name="profileTelephone"
+                  type="tel"
+                  [(ngModel)]="telephone"
+                >
+              </div>
+
+              <div class="field-group">
+                <label for="profile-date-naissance">
+                  Date de naissance
+                </label>
+
+                <input
+                  id="profile-date-naissance"
+                  name="profileDateNaissance"
+                  type="date"
+                  [(ngModel)]="dateNaissance"
+                >
+              </div>
+
+            </div>
+
+            <div class="field-group">
+              <label for="profile-adresse">
+                Adresse
+              </label>
+
+              <input
+                id="profile-adresse"
+                name="profileAdresse"
+                type="text"
+                [(ngModel)]="adresse"
+              >
+            </div>
+
+            <div class="field-group">
+              <label for="profile-photo">
+                Photo de profil
+              </label>
+
+              <input
+                id="profile-photo"
+                name="profilePhoto"
+                type="text"
+                [(ngModel)]="photoProfil"
+                placeholder="URL de la photo (facultatif)"
+              >
+            </div>
+
+            @if (errorMessage) {
+
+              <div class="feedback error">
+                {{ errorMessage }}
+              </div>
+
+            }
+
+            <div class="edit-actions">
+
+              <button
+                type="button"
+                class="secondary-btn"
+                (click)="cancelEditing()"
+              >
+                Annuler
+              </button>
+
+              <button
+                type="button"
+                class="primary-btn"
+                (click)="saveProfile()"
+              >
+                Enregistrer
+              </button>
+
+            </div>
+
+          </div>
+
+        </section>
+
+      } @else {
+
+
+        @if (activeTab === 'informations') {
+
+          <section class="content-card">
+
+            <div class="card-heading">
+
+              <div class="card-heading-icon">✉</div>
+
+              <div>
+                <h2>Informations de contact</h2>
+                <p>
+                  Vos coordonnées principales.
+                </p>
+              </div>
+
+            </div>
+
+            <div class="info-grid">
+
+              <div class="info-box">
+
+                <span class="info-icon">✉</span>
+
+                <div>
+                  <small>Email</small>
+
+                  <strong>
+                    {{ user()?.email }}
+                  </strong>
+                </div>
+
+              </div>
+
+              <div class="info-box">
+
+                <span class="info-icon">☎</span>
+
+                <div>
+                  <small>Téléphone</small>
+
+                  <strong>
+                    {{ user()?.telephone || '-' }}
+                  </strong>
+                </div>
+
+              </div>
+
+              <div class="info-box">
+
+                <span class="info-icon">⌂</span>
+
+                <div>
+                  <small>Adresse</small>
+
+                  <strong>
+                    {{ user()?.adresse || '-' }}
+                  </strong>
+                </div>
+
+              </div>
+
+            </div>
+
+          </section>
+
+
+          <section class="content-card">
+
+            <div class="card-heading">
+
+              <div class="card-heading-icon">●</div>
+
+              <div>
+                <h2>Informations personnelles</h2>
+                <p>
+                  Informations générales du compte.
+                </p>
+              </div>
+
+            </div>
+
+            <div class="info-list">
+
+              <div class="info-list-row">
+
+                <span>
+                  Date de naissance
+                </span>
+
+                <strong>
+                  {{ user()?.dateNaissance || '-' }}
+                </strong>
+
+              </div>
+
+              <div class="info-list-row">
+
+                <span>
+                  Rôle
+                </span>
+
+                <span class="role-inline-badge">
+                  {{ user()?.role === 'admin' ? 'Administrateur' : 'Client' }}
+                </span>
+
+              </div>
+
+              <div class="info-list-row">
+
+                <span>
+                  Membre depuis
+                </span>
+
+                <strong>
+                  {{ user()?.createdAt || '-' }}
+                </strong>
+
+              </div>
+
+            </div>
+
+          </section>
+
+        }
+
+
+        @if (
+          activeTab === 'commandes' &&
+          user()?.role !== 'admin'
+        ) {
+
+          <section class="content-card">
+
+            <div class="card-heading">
+
+              <div class="card-heading-icon">▣</div>
+
+              <div>
+                <h2>Mes commandes</h2>
+                <p>
+                  Retrouvez l'historique de vos commandes.
+                </p>
+              </div>
+
+            </div>
+
+
+            @if (ordersLoading()) {
+
+              <div class="empty-state">
+                Chargement des commandes...
+              </div>
+
+            } @else if (ordersError) {
+
+              <div class="feedback error">
+                {{ ordersError }}
+              </div>
+
+            } @else if (orders().length === 0) {
+
+              <div class="empty-state">
+                Vous n'avez encore passé aucune commande.
+              </div>
+
+            } @else {
+
+              <div class="orders-list">
+
+                @for (order of orders(); track order.idCommande) {
+
+                  <article class="order-card">
+
+                    <div class="order-header">
+
+                      <div>
+
+                        <h3>
+                          Commande n°{{ order.idCommande }}
+                        </h3>
+
+                        <p>
+                          {{ order.createdAt }}
+                        </p>
+
+                      </div>
+
+                      <span
+                        class="order-status"
+                        [class.status-pending]="order.statut === 'en_attente'"
+                        [class.status-paid]="order.statut === 'payee'"
+                        [class.status-shipped]="order.statut === 'expediee'"
+                        [class.status-delivered]="order.statut === 'livree'"
+                        [class.status-cancelled]="order.statut === 'annulee'"
+                      >
+                        {{ getStatusLabel(order.statut) }}
+                      </span>
+
+                    </div>
+
+                    <div class="order-products">
+
+                      @for (line of order.lignes; track line.idProduit) {
+
+                        <div class="order-line">
+
+                          <span>
+                            {{ line.nom }}
+                          </span>
+
+                          <span>
+                            {{ line.quantite }} ×
+                            {{ line.prixUnitaire }} €
+                          </span>
+
+                        </div>
+
+                      }
+
+                    </div>
+
+                    <div class="order-total">
+
+                      <span>Total</span>
+
+                      <strong>
+                        {{ order.totalTtc }} {{ order.devise }}
+                      </strong>
+
+                    </div>
+
+                  </article>
+
+                }
+
+              </div>
+
+            }
+
+          </section>
+
+        }
+
+
+        @if (activeTab === 'parametres') {
+
+          <section class="content-card">
+
+            <div class="card-heading">
+
+              <div class="card-heading-icon">⚙</div>
+
+              <div>
+                <h2>Paramètres du compte</h2>
+                <p>
+                  Gérez les options liées à votre compte.
+                </p>
+              </div>
+
+            </div>
+
+            <div class="settings-placeholder">
+
+              <p>
+                Utilisez le bouton
+                <strong>Modifier le profil</strong>
+                dans l'onglet Informations pour mettre à jour vos données.
+              </p>
+
+            </div>
+
+          </section>
+
+        }
+
+      }
+
     </main>
 
   </div>
+
 </section>

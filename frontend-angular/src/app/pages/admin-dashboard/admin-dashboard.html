@@ -1,37 +1,409 @@
 <section class="admin-page">
-  <h1>Administration des produits</h1>
 
-  <form class="product-form" (ngSubmit)="saveProduct()">
-    <h2>{{ formProduct.idProduit === 0 ? 'Ajouter un produit' : 'Modifier un produit' }}</h2>
+  <div class="admin-shell">
 
-    <input name="nom" [(ngModel)]="formProduct.nom" placeholder="Nom du produit" required />
-    <textarea name="description" [(ngModel)]="formProduct.description" placeholder="Description"></textarea>
-    <input name="prix" type="number" [(ngModel)]="formProduct.prixUnitaire" placeholder="Prix" required />
-    <input name="stock" type="number" [(ngModel)]="formProduct.stockOnHand" placeholder="Stock" required />
+    <aside class="admin-sidebar">
+      <div class="admin-sidebar-title">
+        <div class="admin-sidebar-icon">◇</div>
+        <h1>Administration</h1>
+      </div>
 
-    <button type="submit">
-    {{ formProduct.idProduit === 0 ? 'Ajouter' : 'Modifier' }}
-    </button>
+      <button
+        type="button"
+        class="sidebar-tab"
+        [class.active]="activeTab === 'produits'"
+        (click)="setActiveTab('produits')"
+      >
+        Produits
+      </button>
 
-    <button type="button" (click)="resetForm()">
-    Annuler
-    </button>
-    
-  </form>
+      <button
+        type="button"
+        class="sidebar-tab"
+        [class.active]="activeTab === 'commandes'"
+        (click)="setActiveTab('commandes')"
+      >
+        Commandes clients
+      </button>
+    </aside>
 
-  <div class="products-list">
-    @for (product of products(); track product.idProduit) {
-      <article class="product-row">
-        <div>
-          <strong>{{ product.nom }}</strong>
-          <p>{{ product.prixUnitaire }} € — Stock : {{ product.stockOnHand }}</p>
+    <main class="admin-content">
+
+      @if (activeTab === 'produits') {
+
+        <div class="admin-heading">
+          <div>
+            <h2>Gestion des produits</h2>
+            <p>Ajoutez, modifiez ou supprimez vos produits</p>
+          </div>
         </div>
 
-        <div>
-          <button (click)="editProduct(product)">Modifier</button>
-          <button (click)="deleteProduct(product.idProduit)">Supprimer</button>
+        <section class="admin-card product-form-card">
+
+          <div class="card-title-row">
+            <div class="card-icon">◇</div>
+
+            <div>
+              <h3>
+                {{ formProduct.idProduit === 0
+                  ? 'Ajouter un nouveau produit'
+                  : 'Modifier le produit' }}
+              </h3>
+              <p>
+                Renseignez les informations principales du produit.
+              </p>
+            </div>
+          </div>
+
+          <form
+            class="product-form"
+            (ngSubmit)="saveProduct()"
+          >
+
+            <div class="form-grid">
+
+              <div class="field-group">
+                <label for="product-name">
+                  Nom du produit
+                </label>
+
+                <input
+                  id="product-name"
+                  name="nom"
+                  [(ngModel)]="formProduct.nom"
+                  placeholder="Ex : Carrelage béton gris 60x60"
+                  required
+                >
+              </div>
+
+              <div class="field-group">
+                <label for="product-price">
+                  Prix unitaire (€)
+                </label>
+
+                <input
+                  id="product-price"
+                  name="prix"
+                  type="number"
+                  step="0.01"
+                  min="0"
+                  [(ngModel)]="formProduct.prixUnitaire"
+                  placeholder="Ex : 24.90"
+                  required
+                >
+              </div>
+
+              <div class="field-group">
+                <label for="product-stock">
+                  Stock disponible
+                </label>
+
+                <input
+                  id="product-stock"
+                  name="stock"
+                  type="number"
+                  min="0"
+                  [(ngModel)]="formProduct.stockOnHand"
+                  placeholder="Ex : 80"
+                  required
+                >
+              </div>
+
+            </div>
+
+            <div class="field-group">
+              <label for="product-description">
+                Description
+              </label>
+
+              <textarea
+                id="product-description"
+                name="description"
+                rows="4"
+                [(ngModel)]="formProduct.description"
+                placeholder="Décrivez le produit, son style, son usage..."
+              ></textarea>
+            </div>
+
+            <div class="form-footer">
+
+              <div class="status-block">
+                <span class="status-label">Statut</span>
+
+                <button
+                  type="button"
+                  class="status-toggle"
+                  [class.enabled]="formProduct.actif"
+                  (click)="formProduct.actif = !formProduct.actif"
+                >
+                  <span class="status-toggle-dot"></span>
+                </button>
+
+                <span
+                  class="status-text"
+                  [class.inactive]="!formProduct.actif"
+                >
+                  {{ formProduct.actif ? 'Actif' : 'Inactif' }}
+                </span>
+              </div>
+
+              <div class="form-actions">
+
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  (click)="resetForm()"
+                >
+                  Réinitialiser
+                </button>
+
+                <button
+                  type="submit"
+                  class="btn btn-primary"
+                >
+                  {{ formProduct.idProduit === 0
+                    ? 'Enregistrer le produit'
+                    : 'Enregistrer les modifications' }}
+                </button>
+
+              </div>
+
+            </div>
+
+          </form>
+
+        </section>
+
+
+        <section class="admin-card product-list-card">
+
+          <div class="list-header">
+
+            <div>
+              <h3>Liste des produits</h3>
+              <span class="count-badge">
+                {{ products().length }} produits
+              </span>
+            </div>
+
+          </div>
+
+          <div class="product-table">
+
+            <div class="product-table-header">
+              <span>Produit</span>
+              <span>Prix</span>
+              <span>Stock</span>
+              <span>Statut</span>
+              <span>Actions</span>
+            </div>
+
+            @for (product of products(); track product.idProduit) {
+
+              <article class="product-table-row">
+
+                <div class="product-main-cell">
+                  <div class="product-avatar">
+                    {{ product.nom.charAt(0) }}
+                  </div>
+
+                  <div>
+                    <strong>
+                      {{ product.nom }}
+                    </strong>
+
+                    <p>
+                      {{ product.description || 'Aucune description' }}
+                    </p>
+                  </div>
+                </div>
+
+                <div class="product-cell">
+                  {{ product.prixUnitaire }} €
+                </div>
+
+                <div class="product-cell">
+                  {{ product.stockOnHand }}
+                </div>
+
+                <div class="product-cell">
+                  <span
+                    class="status-badge"
+                    [class.inactive]="!product.actif"
+                  >
+                    {{ product.actif ? 'Actif' : 'Inactif' }}
+                  </span>
+                </div>
+
+                <div class="product-actions">
+
+                  <button
+                    type="button"
+                    class="icon-btn edit"
+                    (click)="editProduct(product)"
+                  >
+                    Modifier
+                  </button>
+
+                  <button
+                    type="button"
+                    class="icon-btn delete"
+                    (click)="deleteProduct(product.idProduit)"
+                  >
+                    Supprimer
+                  </button>
+
+                </div>
+
+              </article>
+
+            }
+
+          </div>
+
+        </section>
+
+      }
+
+
+      @if (activeTab === 'commandes') {
+
+        <div class="admin-heading">
+          <div>
+            <h2>Commandes clients</h2>
+            <p>Consultez les commandes et mettez à jour leur statut.</p>
+          </div>
         </div>
-      </article>
-    }
+
+        <section class="admin-card">
+
+          @if (ordersLoading()) {
+
+            <p class="empty-state">
+              Chargement des commandes...
+            </p>
+
+          } @else if (ordersError) {
+
+            <p class="error">
+              {{ ordersError }}
+            </p>
+
+          } @else if (orders().length === 0) {
+
+            <p class="empty-state">
+              Aucune commande pour le moment.
+            </p>
+
+          } @else {
+
+            <div class="orders-admin-list">
+
+              @for (order of orders(); track order.idCommande) {
+
+                <article class="order-admin-card">
+
+                  <div class="order-admin-header">
+
+                    <div>
+                      <h3>
+                        Commande n°{{ order.idCommande }}
+                      </h3>
+
+                      <p>
+                        {{ order.clientEmail }}
+                      </p>
+
+                      <p>
+                        {{ order.createdAt }}
+                      </p>
+                    </div>
+
+                    <strong class="order-price">
+                      {{ order.totalTtc }} {{ order.devise }}
+                    </strong>
+
+                  </div>
+
+                  <div class="order-products">
+
+                    @for (line of order.lignes; track line.idProduit) {
+
+                      <div class="order-line">
+
+                        <span>
+                          {{ line.nom }}
+                        </span>
+
+                        <span>
+                          {{ line.quantite }} ×
+                          {{ line.prixUnitaire }} €
+                        </span>
+
+                      </div>
+
+                    }
+
+                  </div>
+
+                  <div class="order-status-admin">
+
+                    <label
+                      [for]="'status-' + order.idCommande"
+                    >
+                      Statut
+                    </label>
+
+                    <select
+                      [id]="'status-' + order.idCommande"
+                      [ngModel]="order.statut"
+                      [ngModelOptions]="{ standalone: true }"
+                      (ngModelChange)="updateOrderStatus(
+                        order.idCommande,
+                        $event
+                      )"
+                    >
+                      <option value="en_attente">
+                        En attente
+                      </option>
+
+                      <option value="payee">
+                        Payée
+                      </option>
+
+                      <option value="expediee">
+                        Expédiée
+                      </option>
+
+                      <option value="livree">
+                        Livrée
+                      </option>
+
+                      <option value="annulee">
+                        Annulée
+                      </option>
+                    </select>
+
+                    <span class="status-badge">
+                      {{ getStatusLabel(order.statut) }}
+                    </span>
+
+                  </div>
+
+                </article>
+
+              }
+
+            </div>
+
+          }
+
+        </section>
+
+      }
+
+    </main>
+
   </div>
+
 </section>

@@ -1,93 +1,179 @@
 <section class="register-page">
-  <div class="register-card">
-    <h1>Créer un compte</h1>
 
-    <form (ngSubmit)="onRegister()">
-      <div class="form-row">
-        <div>
-          <label for="nom">Nom *</label>
+  <div class="register-card">
+
+    <div class="register-brand">
+
+      <div class="brand-icon">G</div>
+
+      <div>
+        <span class="eyebrow">
+          GSO Carrelages Design
+        </span>
+
+        <h1>Créer un compte</h1>
+
+        <p>
+          Créez votre espace client pour commander et suivre vos achats.
+        </p>
+      </div>
+
+    </div>
+
+
+    <form
+      class="register-form"
+      (ngSubmit)="onRegister()"
+    >
+
+      <div class="form-grid">
+
+        <div class="field-group">
+          <label for="nom">
+            Nom *
+          </label>
+
           <input
             id="nom"
             name="nom"
             type="text"
             [(ngModel)]="nom"
+            autocomplete="family-name"
             required
-          />
+          >
         </div>
 
-        <div>
-          <label for="prenom">Prénom</label>
+        <div class="field-group">
+          <label for="prenom">
+            Prénom
+          </label>
+
           <input
             id="prenom"
             name="prenom"
             type="text"
             [(ngModel)]="prenom"
-          />
+            autocomplete="given-name"
+          >
         </div>
+
+        <div class="field-group">
+          <label for="email">
+            E-mail *
+          </label>
+
+          <input
+            id="email"
+            name="email"
+            type="email"
+            [(ngModel)]="email"
+            autocomplete="email"
+            required
+          >
+        </div>
+
+        <div class="field-group">
+          <label for="telephone">
+            Téléphone
+          </label>
+
+          <input
+            id="telephone"
+            name="telephone"
+            type="tel"
+            [(ngModel)]="telephone"
+            autocomplete="tel"
+          >
+        </div>
+
+        <div class="field-group full-width">
+          <label for="adresse">
+            Adresse
+          </label>
+
+          <input
+            id="adresse"
+            name="adresse"
+            type="text"
+            [(ngModel)]="adresse"
+            autocomplete="street-address"
+          >
+        </div>
+
+        <div class="field-group">
+          <label for="dateNaissance">
+            Date de naissance
+          </label>
+
+          <input
+            id="dateNaissance"
+            name="dateNaissance"
+            type="date"
+            [(ngModel)]="dateNaissance"
+          >
+        </div>
+
+        <div class="field-group">
+          <label for="password">
+            Mot de passe *
+          </label>
+
+          <input
+            id="password"
+            name="password"
+            type="password"
+            [(ngModel)]="password"
+            minlength="8"
+            autocomplete="new-password"
+            required
+          >
+
+          <small class="password-info">
+            Minimum 8 caractères.
+          </small>
+        </div>
+
+        <div class="field-group">
+          <label for="confirmPassword">
+            Confirmer le mot de passe *
+          </label>
+
+          <input
+            id="confirmPassword"
+            name="confirmPassword"
+            type="password"
+            [(ngModel)]="confirmPassword"
+            minlength="8"
+            autocomplete="new-password"
+            required
+          >
+        </div>
+
       </div>
 
-      <label for="email">E-mail *</label>
-      <input
-        id="email"
-        name="email"
-        type="email"
-        [(ngModel)]="email"
-        required
-      />
-
-      <label for="telephone">Téléphone</label>
-      <input
-        id="telephone"
-        name="telephone"
-        type="tel"
-        [(ngModel)]="telephone"
-      />
-
-      <label for="adresse">Adresse</label>
-      <input
-        id="adresse"
-        name="adresse"
-        type="text"
-        [(ngModel)]="adresse"
-      />
-
-      <label for="dateNaissance">Date de naissance</label>
-      <input
-        id="dateNaissance"
-        name="dateNaissance"
-        type="date"
-        [(ngModel)]="dateNaissance"
-      />
-
-      <label for="password">Mot de passe *</label>
-      <input
-        id="password"
-        name="password"
-        type="password"
-        [(ngModel)]="password"
-        minlength="8"
-        required
-      />
-
-      <label for="confirmPassword">Confirmer le mot de passe *</label>
-      <input
-        id="confirmPassword"
-        name="confirmPassword"
-        type="password"
-        [(ngModel)]="confirmPassword"
-        minlength="8"
-        required
-      />
 
       @if (errorMessage) {
-        <p class="error">{{ errorMessage }}</p>
+        <div class="feedback error">
+          {{ errorMessage }}
+        </div>
       }
 
       @if (successMessage) {
-        <p class="success">{{ successMessage }}</p>
+        <div class="feedback success">
+          {{ successMessage }}
+        </div>
       }
 
-      <button type="submit">Créer mon compte</button>
+
+      <button
+        type="submit"
+        class="primary-btn"
+      >
+        Créer mon compte
+      </button>
+
     </form>
+
   </div>
+
 </section>

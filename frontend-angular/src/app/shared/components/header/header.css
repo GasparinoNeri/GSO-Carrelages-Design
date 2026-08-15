@@ -1,39 +1,259 @@
 .navbar {
-  background: linear-gradient(
-    135deg,
-    #1e3a5f,
-    #2c5d8a,
-    #3f7fb3
-  );
+  position: relative;
+  z-index: 1000;
 
-  color: white;
-  padding: 20px 40px;
+  min-height: 78px;
+
+  box-sizing: border-box;
+
+  padding: 0 40px;
 
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
 
-  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  gap: 30px;
+
+  color: white;
+
+  background:
+    linear-gradient(
+      135deg,
+      #173757,
+      #244f78
+    );
+
+  box-shadow:
+    0 5px 18px rgba(15, 40, 65, 0.18);
 }
+
+
+/* LOGO */
 
 .logo {
-  font-size: 1.8rem;
-  font-weight: bold;
-  letter-spacing: 2px;
-}
+  flex: 0 0 auto;
 
-nav {
   display: flex;
-  gap: 25px;
-}
+  align-items: center;
 
-nav a {
+  gap: 11px;
+
   color: white;
+
   text-decoration: none;
-  font-weight: 500;
-  transition: 0.3s;
 }
 
-nav a:hover {
-  color: #ffd700;
+.logo-mark {
+  width: 44px;
+  height: 44px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 12px;
+
+  color: white;
+
+  background:
+    linear-gradient(
+      135deg,
+      #3c6f9d,
+      #7ea5c2
+    );
+
+  font-size: 0.8rem;
+  font-weight: 900;
+
+  letter-spacing: 0.05em;
+
+  box-shadow:
+    0 6px 14px rgba(0, 0, 0, 0.16);
+}
+
+.logo-text {
+  font-size: 1.2rem;
+  font-weight: 800;
+
+  letter-spacing: 0.02em;
+
+  white-space: nowrap;
+}
+
+
+/* NAVIGATION */
+
+.nav-links {
+  display: flex;
+  align-items: center;
+
+  gap: 7px;
+
+  flex-wrap: wrap;
+
+  justify-content: flex-end;
+}
+
+.nav-links a,
+.logout-button {
+  min-height: 40px;
+
+  box-sizing: border-box;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0 13px;
+
+  border-radius: 9px;
+
+  color: rgba(255, 255, 255, 0.86);
+
+  font-size: 0.86rem;
+  font-weight: 700;
+
+  text-decoration: none;
+
+  transition:
+    color 0.2s ease,
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.nav-links a:hover,
+.logout-button:hover {
+  color: white;
+
+  background: rgba(255, 255, 255, 0.10);
+}
+
+
+/* ADMIN */
+
+.admin-link {
+  color: #f2d69a !important;
+}
+
+
+/* REGISTER */
+
+.register-button {
+  margin-left: 4px;
+
+  color: #173757 !important;
+
+  background: white !important;
+
+  box-shadow:
+    0 5px 13px rgba(0, 0, 0, 0.12);
+}
+
+.register-button:hover {
+  transform: translateY(-1px);
+
+  background: #f4f8fb !important;
+}
+
+
+/* LOGOUT */
+
+.logout-button {
+  border: none;
+
+  background: transparent;
+
+  font: inherit;
+
+  cursor: pointer;
+}
+
+
+/* TABLETTE */
+
+@media (max-width: 1000px) {
+
+  .navbar {
+    padding: 14px 24px;
+
+    align-items: flex-start;
+  }
+
+  .logo-text {
+    font-size: 1rem;
+  }
+
+  .nav-links {
+    max-width: 600px;
+  }
+
+}
+
+
+/* MOBILE */
+
+@media (max-width: 760px) {
+
+  .navbar {
+    min-height: auto;
+
+    flex-direction: column;
+
+    align-items: stretch;
+
+    gap: 14px;
+
+    padding: 16px 18px;
+  }
+
+  .logo {
+    justify-content: center;
+  }
+
+  .nav-links {
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+
+    gap: 8px;
+  }
+
+  .nav-links a,
+  .logout-button {
+    width: 100%;
+
+    min-height: 42px;
+
+    padding: 0 10px;
+
+    background: rgba(255, 255, 255, 0.06);
+  }
+
+  .register-button {
+    margin-left: 0;
+  }
+
+}
+
+
+/* PETITS TÉLÉPHONES */
+
+@media (max-width: 420px) {
+
+  .logo-text {
+    font-size: 0.92rem;
+  }
+
+  .logo-mark {
+    width: 40px;
+    height: 40px;
+  }
+
+  .nav-links {
+    grid-template-columns: 1fr;
+  }
+
 }

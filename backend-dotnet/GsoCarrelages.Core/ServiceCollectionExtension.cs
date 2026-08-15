@@ -12,6 +12,7 @@ public static class ServiceCollectionExtension
     {
         services.AddTransient<IAuthUseCases, AuthUseCases>();
         services.AddTransient<IProductUseCases, ProductUseCases>();
+        services.AddTransient<IOrderUseCases, OrderUseCases>();
 
         return services;
     }

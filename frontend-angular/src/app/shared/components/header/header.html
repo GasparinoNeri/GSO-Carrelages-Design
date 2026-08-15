@@ -1,14 +1,72 @@
 <header class="navbar">
-  <div class="logo">
-    GSO Carrelages Design
-  </div>
 
-  <nav>
-    <a routerLink="/">Accueil</a>
-    <a routerLink="/catalog">Produits</a>
-    <a routerLink="/cart">Panier</a>
-    <a routerLink="/profile">Profil</a>
-    <a routerLink="/login">Connexion</a>
-    <a routerLink="/admin">Admin</a>
+  <a
+    class="logo"
+    routerLink="/home"
+  >
+    <span class="logo-mark">GSO</span>
+
+    <span class="logo-text">
+      Carrelages Design
+    </span>
+  </a>
+
+
+  <nav class="nav-links">
+
+    <a routerLink="/home">
+      Accueil
+    </a>
+
+    <a routerLink="/catalog">
+      Produits
+    </a>
+
+    <a routerLink="/cart">
+      Panier
+    </a>
+
+
+    @if (user()) {
+
+      <a routerLink="/profile">
+        Profil
+      </a>
+
+      @if (user()?.role === 'admin') {
+
+        <a
+          routerLink="/admin"
+          class="admin-link"
+        >
+          Administration
+        </a>
+
+      }
+
+      <button
+        type="button"
+        class="logout-button"
+        (click)="logout()"
+      >
+        Déconnexion
+      </button>
+
+    } @else {
+
+      <a routerLink="/login">
+        Connexion
+      </a>
+
+      <a
+        routerLink="/register"
+        class="register-button"
+      >
+        Créer un compte
+      </a>
+
+    }
+
   </nav>
+
 </header>

@@ -1,41 +1,180 @@
 <section class="product-detail-page">
 
-  @if (isLoading()) {
+  <div class="product-detail-shell">
 
-    <p>Chargement du produit...</p>
+    @if (isLoading()) {
 
-  } @else {
-
-    @if (product()) {
-
-      <div class="product-container">
-
-        <h1>{{ product()!.nom }}</h1>
-
-        <p class="description">
-          {{ product()!.description }}
-        </p>
-
-        <p class="price">
-          Prix : {{ product()!.prixUnitaire }} €
-        </p>
-
-        <p>
-          Stock disponible : {{ product()!.stockOnHand }}
-        </p>
-
-        <a routerLink="/catalog">
-          Retour au catalogue
-        </a>
-
+      <div class="state-card">
+        Chargement du produit...
       </div>
 
     } @else {
 
-      <p>Produit introuvable.</p>
+      @if (product()) {
+
+        <article class="product-detail-card">
+
+          <div class="product-visual-panel">
+
+            <div class="product-visual">
+
+              <div class="product-initial">
+                {{ product()!.nom ? product()!.nom.charAt(0) : 'G' }}
+              </div>
+
+            </div>
+
+            @if (product()!.stockOnHand <= 0) {
+
+              <span class="stock-badge stock-empty">
+                Rupture de stock
+              </span>
+
+            } @else if (product()!.stockOnHand <= 20) {
+
+              <span class="stock-badge stock-low">
+                Stock faible
+              </span>
+
+            } @else {
+
+              <span class="stock-badge stock-available">
+                En stock
+              </span>
+
+            }
+
+          </div>
+
+
+          <div class="product-info-panel">
+
+            <div class="product-topline">
+
+              <span class="product-category">
+                GSO Carrelages Design
+              </span>
+
+              <a
+                class="back-link"
+                routerLink="/catalog"
+              >
+                ← Retour au catalogue
+              </a>
+
+            </div>
+
+
+            <h1>
+              {{ product()!.nom }}
+            </h1>
+
+
+            <p class="description">
+              {{ product()!.description || 'Aucune description disponible pour ce produit.' }}
+            </p>
+
+
+            <div class="product-price-block">
+
+              <span>Prix unitaire</span>
+
+              <strong>
+                {{ product()!.prixUnitaire }} €
+              </strong>
+
+            </div>
+
+
+            <div class="product-details-grid">
+
+              <div class="detail-box">
+
+                <small>Stock disponible</small>
+
+                <strong>
+                  {{ product()!.stockOnHand }}
+                </strong>
+
+              </div>
+
+              <div class="detail-box">
+
+                <small>Disponibilité</small>
+
+                <strong>
+                  @if (product()!.stockOnHand <= 0) {
+                    Indisponible
+                  } @else {
+                    Disponible
+                  }
+                </strong>
+
+              </div>
+
+              <div class="detail-box">
+
+                <small>Référence</small>
+
+                <strong>
+                  #{{ product()!.idProduit }}
+                </strong>
+
+              </div>
+
+            </div>
+
+
+            <div class="product-service-box">
+
+              <h2>Besoin d'un conseil ?</h2>
+
+              <p>
+                Contactez-nous pour obtenir plus d'informations sur ce produit,
+                sa disponibilité ou la pose.
+              </p>
+
+              <div class="service-links">
+
+                <a href="tel:0491754463">
+                  Téléphone
+                </a>
+
+                <a href="mailto:ririneri.1997@gmail.com">
+                  E-mail
+                </a>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </article>
+
+      } @else {
+
+        <div class="state-card error-state">
+
+          <h2>Produit introuvable</h2>
+
+          <p>
+            Ce produit n'existe pas ou n'est plus disponible.
+          </p>
+
+          <a
+            class="catalog-btn"
+            routerLink="/catalog"
+          >
+            Retour au catalogue
+          </a>
+
+        </div>
+
+      }
 
     }
 
-  }
+  </div>
 
 </section>

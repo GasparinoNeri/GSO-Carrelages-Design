@@ -1,4 +1,24 @@
 .home-page {
+  min-height: 100vh;
+
+  background:
+    linear-gradient(
+      rgba(247, 250, 252, 0.88),
+      rgba(247, 250, 252, 0.88)
+    ),
+    url('/assets/gso-logo-bg.png');
+
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+
+  color: #1e2c3d;
+}
+
+
+/* HERO */
+
+.hero-section {
   min-height: calc(100vh - 80px);
 
   background-image: url('/assets/home-banner.png');
@@ -9,31 +29,379 @@
   position: relative;
 }
 
-.home-contact {
+.hero-overlay {
   position: absolute;
+  inset: 0;
 
-  bottom: 30px;
-  left: 50%;
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.02),
+      rgba(255, 255, 255, 0.08)
+    );
+}
 
-  transform: translateX(-50%);
 
-  background: rgba(255, 255, 255, 0.92);
+/* COMMON */
 
-  padding: 20px 35px;
+.home-section {
+  width: 100%;
 
-  border-radius: 16px;
+  padding: 80px 34px;
+
+  box-sizing: border-box;
+}
+
+.section-heading {
+  max-width: 800px;
+
+  margin: 0 auto 45px;
 
   text-align: center;
-
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
 }
 
-.home-contact h2 {
-  margin-top: 0;
-  color: #1f3f6f;
+.eyebrow {
+  display: inline-block;
+
+  margin-bottom: 10px;
+
+  color: #b28a46;
+
+  font-size: 0.78rem;
+  font-weight: 800;
+
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
 }
 
-.home-contact p {
-  margin: 8px 0;
-  font-size: 1.1rem;
+.section-heading h2,
+.advantage-content h2,
+.contact-text h2 {
+  margin: 0 0 14px;
+
+  color: #173454;
+
+  font-size: 2rem;
+
+  line-height: 1.25;
+}
+
+.section-heading p,
+.advantage-content p,
+.contact-text p {
+  margin: 0;
+
+  color: #728092;
+
+  line-height: 1.65;
+}
+
+
+/* SERVICES */
+
+.services-section {
+  background: rgba(255, 255, 255, 0.75);
+}
+
+.services-grid {
+  width: 100%;
+  max-width: 1350px;
+
+  margin: 0 auto;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  gap: 24px;
+}
+
+.service-card {
+  padding: 32px 28px;
+
+  background: rgba(255, 255, 255, 0.97);
+
+  border: 1px solid #e1e7ee;
+  border-radius: 18px;
+
+  box-shadow:
+    0 12px 34px rgba(24, 56, 94, 0.08);
+
+  transition:
+    transform 0.22s ease,
+    box-shadow 0.22s ease;
+}
+
+.service-card:hover {
+  transform: translateY(-4px);
+
+  box-shadow:
+    0 18px 40px rgba(24, 56, 94, 0.13);
+}
+
+.service-icon {
+  width: 50px;
+  height: 50px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 20px;
+
+  border-radius: 14px;
+
+  color: white;
+
+  background:
+    linear-gradient(
+      135deg,
+      #21476d,
+      #6f9abe
+    );
+
+  font-size: 1.4rem;
+}
+
+.service-card h3 {
+  margin: 0 0 12px;
+
+  color: #21476d;
+
+  font-size: 1.15rem;
+}
+
+.service-card p {
+  margin: 0;
+
+  color: #748294;
+
+  line-height: 1.65;
+
+  font-size: 0.9rem;
+}
+
+
+/* ADVANTAGE */
+
+.advantage-section {
+  padding-top: 60px;
+  padding-bottom: 60px;
+}
+
+.advantage-card {
+  width: 100%;
+  max-width: 1200px;
+
+  margin: 0 auto;
+
+  display: grid;
+
+  grid-template-columns: 100px minmax(0, 1fr);
+
+  gap: 30px;
+
+  align-items: center;
+
+  padding: 38px;
+
+  box-sizing: border-box;
+
+  border-radius: 20px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(24, 57, 92, 0.98),
+      rgba(46, 106, 156, 0.96)
+    );
+
+  box-shadow:
+    0 16px 40px rgba(20, 52, 86, 0.18);
+}
+
+.advantage-icon {
+  width: 78px;
+  height: 78px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  margin: auto;
+
+  border-radius: 20px;
+
+  color: #d7b36e;
+
+  background: rgba(255, 255, 255, 0.12);
+
+  font-size: 2rem;
+}
+
+.advantage-content h2 {
+  color: white;
+}
+
+.advantage-content p {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.advantage-content .eyebrow {
+  color: #d7b36e;
+}
+
+.advantage-note {
+  margin-top: 12px !important;
+
+  font-size: 0.8rem;
+
+  opacity: 0.8;
+}
+
+
+/* CONTACT */
+
+.contact-section {
+  background: rgba(255, 255, 255, 0.76);
+}
+
+.contact-content {
+  width: 100%;
+  max-width: 1250px;
+
+  margin: 0 auto;
+
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1.2fr)
+    minmax(340px, 0.8fr);
+
+  gap: 50px;
+
+  align-items: center;
+}
+
+.contact-cards {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 14px;
+}
+
+.contact-card {
+  display: flex;
+
+  align-items: center;
+
+  gap: 15px;
+
+  padding: 18px;
+
+  border: 1px solid #e0e7ee;
+  border-radius: 14px;
+
+  background: rgba(255, 255, 255, 0.97);
+
+  text-decoration: none;
+
+  box-shadow:
+    0 10px 28px rgba(24, 56, 94, 0.07);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.contact-card:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 14px 32px rgba(24, 56, 94, 0.12);
+}
+
+.contact-icon {
+  width: 44px;
+  height: 44px;
+
+  flex: 0 0 auto;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 12px;
+
+  color: #28577f;
+
+  background: #edf5fb;
+
+  font-size: 1.2rem;
+}
+
+.contact-card small {
+  display: block;
+
+  margin-bottom: 3px;
+
+  color: #8e99a6;
+
+  font-size: 0.74rem;
+}
+
+.contact-card strong {
+  color: #334155;
+
+  font-size: 0.92rem;
+}
+
+
+/* RESPONSIVE */
+
+@media (max-width: 900px) {
+
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .advantage-card {
+    grid-template-columns: 1fr;
+
+    text-align: center;
+  }
+
+  .contact-content {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+@media (max-width: 650px) {
+
+  .home-section {
+    padding: 55px 18px;
+  }
+
+  .hero-section {
+    min-height: 70vh;
+
+    background-position: center;
+  }
+
+  .section-heading h2,
+  .advantage-content h2,
+  .contact-text h2 {
+    font-size: 1.55rem;
+  }
+
+  .advantage-card {
+    padding: 28px 20px;
+  }
+
 }

@@ -1,66 +1,259 @@
 .register-page {
-  min-height: 100vh;
+  min-height: calc(100vh - 80px);
+
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+
   padding: 40px 20px;
+
+  box-sizing: border-box;
+
+  background:
+    linear-gradient(
+      rgba(247, 250, 252, 0.84),
+      rgba(247, 250, 252, 0.84)
+    ),
+    url('/assets/gso-logo-bg.png');
+
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
 }
 
 .register-card {
   width: 100%;
-  max-width: 650px;
-  padding: 32px;
-  border-radius: 18px;
-  background: white;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  max-width: 760px;
+
+  padding: 34px;
+
+  border: 1px solid #e1e7ee;
+  border-radius: 20px;
+
+  background: rgba(255, 255, 255, 0.97);
+
+  box-shadow:
+    0 16px 42px rgba(24, 56, 94, 0.12);
 }
 
-.register-card h1 {
-  margin-bottom: 24px;
+.register-brand {
+  display: flex;
+  align-items: center;
+
+  gap: 15px;
+
+  margin-bottom: 28px;
 }
 
-.register-card form {
+.brand-icon {
+  width: 52px;
+  height: 52px;
+
+  flex: 0 0 auto;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 15px;
+
+  color: white;
+
+  background:
+    linear-gradient(
+      135deg,
+      #193c63,
+      #3374a9
+    );
+
+  font-size: 1.4rem;
+  font-weight: 800;
+
+  box-shadow:
+    0 8px 18px rgba(25, 60, 99, 0.18);
+}
+
+.eyebrow {
+  display: block;
+
+  margin-bottom: 4px;
+
+  color: #b28a46;
+
+  font-size: 0.72rem;
+  font-weight: 800;
+
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.register-brand h1 {
+  margin: 0 0 4px;
+
+  color: #173454;
+
+  font-size: 1.8rem;
+}
+
+.register-brand p {
+  margin: 0;
+
+  color: #7c8998;
+
+  font-size: 0.84rem;
+}
+
+.register-form {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+
+  gap: 18px;
 }
 
-.form-row {
+.form-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
   gap: 16px;
 }
 
-.form-row > div {
+.field-group {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+
+  gap: 7px;
 }
 
-input {
-  padding: 12px;
-  border: 1px solid #d8d8d8;
-  border-radius: 8px;
+.full-width {
+  grid-column: 1 / -1;
 }
 
-button {
-  margin-top: 12px;
-  padding: 14px;
+.field-group label {
+  color: #435367;
+
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.field-group input {
+  width: 100%;
+  height: 46px;
+
+  box-sizing: border-box;
+
+  padding: 0 13px;
+
+  border: 1px solid #d9e0e8;
+  border-radius: 10px;
+
+  color: #25364a;
+
+  background: white;
+
+  font: inherit;
+
+  outline: none;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.field-group input:focus {
+  border-color: #3a74a2;
+
+  box-shadow:
+    0 0 0 3px rgba(58, 116, 162, 0.10);
+}
+
+.password-info {
+  color: #7d8997;
+
+  font-size: 0.74rem;
+}
+
+.primary-btn {
+  width: 100%;
+  min-height: 48px;
+
   border: none;
-  border-radius: 8px;
+  border-radius: 11px;
+
+  color: white;
+
+  background:
+    linear-gradient(
+      135deg,
+      #193c63,
+      #3374a9
+    );
+
+  font-weight: 800;
+
   cursor: pointer;
+
+  box-shadow:
+    0 8px 18px rgba(25, 60, 99, 0.17);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
-.error {
+.primary-btn:hover {
+  transform: translateY(-1px);
+
+  box-shadow:
+    0 10px 22px rgba(25, 60, 99, 0.23);
+}
+
+.feedback {
+  padding: 11px 13px;
+
+  border-radius: 10px;
+
+  font-size: 0.84rem;
+  font-weight: 700;
+}
+
+.feedback.error {
   color: #b42318;
+
+  background: #fff1f0;
+
+  border: 1px solid #f2c7c4;
 }
 
-.success {
-  color: #067647;
+.feedback.success {
+  color: #157347;
+
+  background: #eaf7f0;
+
+  border: 1px solid #ccebd9;
 }
 
-@media (max-width: 600px) {
-  .form-row {
+@media (max-width: 650px) {
+
+  .register-page {
+    padding: 20px 14px;
+  }
+
+  .register-card {
+    padding: 26px 20px;
+  }
+
+  .register-brand {
+    align-items: flex-start;
+  }
+
+  .form-grid {
     grid-template-columns: 1fr;
   }
+
+  .full-width {
+    grid-column: auto;
+  }
+
 }

@@ -1,26 +1,291 @@
 <section class="cart-page">
-  <h1>Panier</h1>
 
-  @if (cartService.items().length === 0) {
-    <p>Votre panier est vide.</p>
-  } @else {
-    <div class="cart-list">
-      @for (item of cartService.items(); track item.product.idProduit) {
-        <article class="cart-item">
-          <div>
-            <strong>{{ item.product.nom }}</strong>
-            <p>Prix : {{ item.product.prixUnitaire }} €</p>
+  <div class="cart-shell">
+
+    <div class="cart-main">
+
+      <div class="cart-heading">
+        <div>
+          <h1>Mon panier</h1>
+          <p>Vérifiez vos articles avant de finaliser la commande.</p>
+        </div>
+      </div>
+
+      @if (successMessage) {
+        <div class="feedback success">
+          {{ successMessage }}
+        </div>
+      }
+
+      @if (errorMessage) {
+        <div class="feedback error">
+          {{ errorMessage }}
+        </div>
+      }
+
+      @if (cartService.items().length === 0) {
+
+        <section class="cart-card empty-cart">
+          <h2>Votre panier est vide</h2>
+          <p>
+            Ajoutez des produits depuis le catalogue pour commencer votre commande.
+          </p>
+        </section>
+
+      } @else {
+
+        <section class="cart-card">
+
+          <div class="card-header">
+            <div>
+              <h2>Articles sélectionnés</h2>
+              <p>
+                {{ cartService.items().length }} article(s) dans votre panier
+              </p>
+            </div>
+
+            <button
+              type="button"
+              class="clear-cart-btn"
+              (click)="clearCart()"
+            >
+              Vider le panier
+            </button>
           </div>
 
-          <button (click)="removeItem(item.product.idProduit)">
-            Supprimer
-          </button>
-        </article>
+          <div class="cart-list">
+
+            @for (item of cartService.items(); track item.product.idProduit) {
+
+              <article class="cart-item">
+
+                <div class="product-identity">
+
+                  <div class="product-avatar">
+                    {{ item.product.nom.charAt(0) }}
+                  </div>
+
+                  <div>
+                    <h3>
+                      {{ item.product.nom }}
+                    </h3>
+
+                    <p>
+                      Prix unitaire :
+                      {{ item.product.prixUnitaire }} €
+                    </p>
+                  </div>
+
+                </div>
+
+                <div class="product-meta">
+
+                  <div class="meta-block">
+                    <span>Quantité</span>
+                    <strong>
+                      {{ item.quantity }}
+                    </strong>
+                  </div>
+
+                  <div class="meta-block">
+                    <span>Sous-total</span>
+                    <strong>
+                      {{ item.product.prixUnitaire * item.quantity }} €
+                    </strong>
+                  </div>
+
+                </div>
+
+                <button
+                  type="button"
+                  class="remove-btn"
+                  (click)="removeItem(item.product.idProduit)"
+                >
+                  Supprimer
+                </button>
+
+              </article>
+
+            }
+
+          </div>
+
+        </section>
+
+
+        <section class="cart-card checkout-card">
+
+          <div class="card-header">
+            <div>
+              <h2>Informations de livraison</h2>
+              <p>
+                Renseignez l'adresse utilisée pour la livraison de votre commande.
+              </p>
+            </div>
+          </div>
+
+          <div class="checkout-form">
+
+            <div class="form-grid">
+
+              <div class="field-group">
+                <label for="rue">
+                  Rue *
+                </label>
+
+                <input
+                  id="rue"
+                  name="rue"
+                  type="text"
+                  [(ngModel)]="rue"
+                  placeholder="Ex : Rue du Centre 25"
+                  required
+                >
+              </div>
+
+              <div class="field-group">
+                <label for="complement">
+                  Complément
+                </label>
+
+                <input
+                  id="complement"
+                  name="complement"
+                  type="text"
+                  [(ngModel)]="complement"
+                  placeholder="Appartement, boîte..."
+                >
+              </div>
+
+              <div class="field-group">
+                <label for="localite">
+                  Ville *
+                </label>
+
+                <input
+                  id="localite"
+                  name="localite"
+                  type="text"
+                  [(ngModel)]="localite"
+                  placeholder="Ex : La Louvière"
+                  required
+                >
+              </div>
+
+              <div class="field-group">
+                <label for="codePostal">
+                  Code postal *
+                </label>
+
+                <input
+                  id="codePostal"
+                  name="codePostal"
+                  type="text"
+                  [(ngModel)]="codePostal"
+                  placeholder="Ex : 7100"
+                  required
+                >
+              </div>
+
+              <div class="field-group">
+                <label for="contactNom">
+                  Nom du contact
+                </label>
+
+                <input
+                  id="contactNom"
+                  name="contactNom"
+                  type="text"
+                  [(ngModel)]="contactNom"
+                  placeholder="Nom de la personne à contacter"
+                >
+              </div>
+
+              <div class="field-group">
+                <label for="contactTel">
+                  Téléphone
+                </label>
+
+                <input
+                  id="contactTel"
+                  name="contactTel"
+                  type="tel"
+                  [(ngModel)]="contactTel"
+                  placeholder="Ex : 0491 75 44 63"
+                >
+              </div>
+
+            </div>
+
+          </div>
+
+        </section>
+
       }
+
     </div>
 
-    <h2>Total : {{ cartService.total() }} €</h2>
 
-    <button (click)="clearCart()">Vider le panier</button>
-  }
+    @if (cartService.items().length > 0) {
+
+      <aside class="cart-summary">
+
+        <section class="summary-card">
+
+          <h2>Résumé</h2>
+
+          <div class="summary-row">
+            <span>Articles</span>
+
+            <strong>
+              {{ cartService.items().length }}
+            </strong>
+          </div>
+
+          <div class="summary-row">
+            <span>Sous-total</span>
+
+            <strong>
+              {{ cartService.total() }} €
+            </strong>
+          </div>
+
+          <div class="summary-row">
+            <span>Livraison</span>
+
+            <strong>
+              À calculer
+            </strong>
+          </div>
+
+          <div class="summary-divider"></div>
+
+          <div class="summary-total">
+            <span>Total</span>
+
+            <strong>
+              {{ cartService.total() }} €
+            </strong>
+          </div>
+
+          <button
+            type="button"
+            class="checkout-btn"
+            (click)="createOrder()"
+          >
+            Passer la commande
+          </button>
+
+          <p class="summary-note">
+            Vous pourrez retrouver cette commande dans votre profil.
+          </p>
+
+        </section>
+
+      </aside>
+
+    }
+
+  </div>
+
 </section>

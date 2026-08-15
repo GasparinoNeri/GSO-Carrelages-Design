@@ -1,51 +1,251 @@
 <section class="catalog-page">
-  <h1>Catalogue produits</h1>
-  @if (notification()) {
-  <div class="notification">
-    ✅ {{ notification() }}
-  </div>
-}
 
-  @if (isLoading()) {
-    <p>Chargement des produits...</p>
-  } @else {
+  <div class="catalog-shell">
 
-    <div class="product-grid">
+    <aside class="catalog-sidebar">
 
-      @for (product of products(); track product.idProduit) {
+      <div class="sidebar-heading">
+        <div class="sidebar-icon">◇</div>
 
-       <article class="product-card">
-        <h2>{{ product.nom }}</h2>
+        <div>
+          <h2>Catalogue</h2>
+          <p>Nos collections</p>
+        </div>
+      </div>
 
-        <p>{{ product.description }}</p>
+      <div class="sidebar-divider"></div>
 
-        <p class="price">
-            {{ product.prixUnitaire }} €
-        </p>
+      <div class="category-section">
 
-        <p>
-            Stock : {{ product.stockOnHand }}
-        </p>
+        <h3>Catégories</h3>
 
-        <div class="product-actions">
+        <button
+          type="button"
+          class="category-btn active"
+        >
+          Tous les produits
+        </button>
+
+        <button
+          type="button"
+          class="category-btn"
+        >
+          Béton
+        </button>
+
+        <button
+          type="button"
+          class="category-btn"
+        >
+          Marbre
+        </button>
+
+        <button
+          type="button"
+          class="category-btn"
+        >
+          Mosaïque
+        </button>
+
+        <button
+          type="button"
+          class="category-btn"
+        >
+          Salle de bain
+        </button>
+
+        <button
+          type="button"
+          class="category-btn"
+        >
+          Extérieur
+        </button>
+
+      </div>
 
 
-        <div class="product-actions">
-          <a [routerLink]="['/product', product.idProduit]">
-            Voir le produit
-          </a>
+      <div class="sidebar-divider"></div>
 
-          <button type="button" (click)="addToCart(product)">
-            Ajouter au panier
-          </button>
+
+      <div class="catalog-info">
+        <span class="info-number">
+          {{ products().length }}
+        </span>
+
+        <span>
+          produits disponibles
+        </span>
+      </div>
+
+    </aside>
+
+
+    <main class="catalog-content">
+
+      <div class="catalog-header">
+
+        <div>
+          <h1>Catalogue produits</h1>
+
+          <p>
+            Découvrez notre sélection de carrelages pour tous vos projets.
+          </p>
         </div>
 
+        <div class="product-count">
+          {{ products().length }} produits
         </div>
 
-        </article>
+      </div>
+
+
+      <div class="catalog-toolbar">
+
+        <div class="search-preview">
+          <span class="search-icon">⌕</span>
+
+          <span>
+            Rechercher un produit...
+          </span>
+        </div>
+
+        <button
+          type="button"
+          class="filter-preview"
+        >
+          Filtrer
+        </button>
+
+      </div>
+
+
+      @if (notification()) {
+
+        <div class="notification">
+          ✓ {{ notification() }}
+        </div>
+
       }
 
-    </div>
 
-  }
+      @if (isLoading()) {
+
+        <section class="loading-card">
+          Chargement des produits...
+        </section>
+
+      } @else {
+
+        <div class="product-grid">
+
+          @for (product of products(); track product.idProduit) {
+
+            <article
+              class="product-card"
+              [class.out-of-stock]="product.stockOnHand <= 0"
+            >
+
+              <div class="product-visual">
+
+                <div class="product-initial">
+                  {{ product.nom ? product.nom.charAt(0) : 'G' }}
+                </div>
+
+                @if (product.stockOnHand <= 0) {
+
+                  <span class="stock-badge stock-empty">
+                    Rupture
+                  </span>
+
+                } @else if (product.stockOnHand <= 20) {
+
+                  <span class="stock-badge stock-low">
+                    Stock faible
+                  </span>
+
+                } @else {
+
+                  <span class="stock-badge stock-available">
+                    En stock
+                  </span>
+
+                }
+
+              </div>
+
+
+              <div class="product-body">
+
+                <div class="product-top">
+
+                  <h2>
+                    {{ product.nom || 'Produit sans nom' }}
+                  </h2>
+
+                  <p class="product-description">
+                    {{ product.description || 'Aucune description disponible.' }}
+                  </p>
+
+                </div>
+
+
+                <div class="product-price-row">
+
+                  <div>
+                    <small>Prix unitaire</small>
+
+                    <strong class="price">
+                      {{ product.prixUnitaire }} €
+                    </strong>
+                  </div>
+
+                  <div class="stock-number">
+                    <small>Stock</small>
+
+                    <strong>
+                      {{ product.stockOnHand }}
+                    </strong>
+                  </div>
+
+                </div>
+
+
+                <div class="product-actions">
+
+                  <a
+                    class="details-btn"
+                    [routerLink]="['/product', product.idProduit]"
+                  >
+                    Voir le produit
+                  </a>
+
+                  <button
+                    type="button"
+                    class="cart-btn"
+                    [disabled]="product.stockOnHand <= 0"
+                    (click)="addToCart(product)"
+                  >
+                    @if (product.stockOnHand <= 0) {
+                      Indisponible
+                    } @else {
+                      Ajouter au panier
+                    }
+                  </button>
+
+                </div>
+
+              </div>
+
+            </article>
+
+          }
+
+        </div>
+
+      }
+
+    </main>
+
+  </div>
+
 </section>

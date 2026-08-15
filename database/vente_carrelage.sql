@@ -14,14 +14,6 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-SET @MYSQLDUMP_TEMP_LOG_BIN = @@SESSION.SQL_LOG_BIN;
-SET @@SESSION.SQL_LOG_BIN= 0;
-
---
--- GTID state at the beginning of the backup 
---
-
-SET @@GLOBAL.GTID_PURGED=/*!80000 '+'*/ 'e7f9f020-d45a-11f0-add5-8d8f291d1926:1-56';
 
 --
 -- Table structure for table `adresses`
@@ -44,7 +36,7 @@ CREATE TABLE `adresses` (
   KEY `fk_adresses_localite` (`id_localite`),
   CONSTRAINT `fk_adresses_client` FOREIGN KEY (`id_client`) REFERENCES `clients` (`id_client`) ON DELETE CASCADE,
   CONSTRAINT `fk_adresses_localite` FOREIGN KEY (`id_localite`) REFERENCES `localite` (`id_localite`) ON DELETE RESTRICT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -53,6 +45,7 @@ CREATE TABLE `adresses` (
 
 LOCK TABLES `adresses` WRITE;
 /*!40000 ALTER TABLE `adresses` DISABLE KEYS */;
+INSERT INTO `adresses` VALUES (3,3,2,'Rue : Rue de démonstration 10',NULL,'facturation','Demo Client','0470000002'),(4,3,2,'Rue : Rue de démonstration 10',NULL,'livraison','Demo Client','0470000002');
 /*!40000 ALTER TABLE `adresses` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -134,7 +127,7 @@ CREATE TABLE `clients` (
   `statut` enum('actif','inactif') NOT NULL DEFAULT 'actif',
   PRIMARY KEY (`id_client`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -143,6 +136,7 @@ CREATE TABLE `clients` (
 
 LOCK TABLES `clients` WRITE;
 /*!40000 ALTER TABLE `clients` DISABLE KEYS */;
+INSERT INTO `clients` VALUES (2,'Demo','Admin','admin.demo@gso.test','0470000001','2026-08-16 00:41:23','actif'),(3,'Demo','Client','client.demo@gso.test','0470000002','2026-08-16 00:42:43','actif');
 /*!40000 ALTER TABLE `clients` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -178,7 +172,7 @@ CREATE TABLE `commandes` (
   CONSTRAINT `fk_cmd_addr_fact` FOREIGN KEY (`id_adresse_facturation`) REFERENCES `adresses` (`id_adresse`) ON DELETE RESTRICT,
   CONSTRAINT `fk_cmd_addr_livr` FOREIGN KEY (`id_adresse_livraison`) REFERENCES `adresses` (`id_adresse`) ON DELETE RESTRICT,
   CONSTRAINT `fk_commandes_client` FOREIGN KEY (`id_client`) REFERENCES `clients` (`id_client`) ON DELETE RESTRICT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -187,6 +181,7 @@ CREATE TABLE `commandes` (
 
 LOCK TABLES `commandes` WRITE;
 /*!40000 ALTER TABLE `commandes` DISABLE KEYS */;
+INSERT INTO `commandes` VALUES (2,3,3,4,'en_attente',44.80,'EUR','[{\"IdProduit\":5,\"Nom\":\"Carrelage b\\u00E9ton gris \",\"PrixUnitaire\":24.9,\"Quantite\":1},{\"IdProduit\":6,\"Nom\":\"Mosa\\u00EFque salle de bain\",\"PrixUnitaire\":19.9,\"Quantite\":1}]','none',NULL,0.00,NULL,NULL,NULL,0.00,NULL,'2026-08-16 00:53:43');
 /*!40000 ALTER TABLE `commandes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -266,7 +261,7 @@ CREATE TABLE `localite` (
   `zone_tarif_livraison` varchar(32) DEFAULT NULL,
   PRIMARY KEY (`id_localite`),
   UNIQUE KEY `uq_localite` (`localite`,`code_postal`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -275,6 +270,7 @@ CREATE TABLE `localite` (
 
 LOCK TABLES `localite` WRITE;
 /*!40000 ALTER TABLE `localite` DISABLE KEYS */;
+INSERT INTO `localite` VALUES (1,'La louviere','710',NULL),(2,'La Louvière','7100',NULL);
 /*!40000 ALTER TABLE `localite` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -306,7 +302,7 @@ CREATE TABLE `produits` (
   CONSTRAINT `fk_produits_fournisseur` FOREIGN KEY (`id_fournisseur`) REFERENCES `fournisseurs` (`id_fournisseur`) ON DELETE SET NULL,
   CONSTRAINT `chk_stock_disp` CHECK ((`stock_on_hand` >= `stock_reserved`)),
   CONSTRAINT `chk_stock_nonneg` CHECK (((`stock_on_hand` >= 0) and (`stock_reserved` >= 0)))
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -315,11 +311,7 @@ CREATE TABLE `produits` (
 
 LOCK TABLES `produits` WRITE;
 /*!40000 ALTER TABLE `produits` DISABLE KEYS */;
-INSERT INTO `produits` VALUES
-(4,'Carrelage marbre blanc','Carrelage effet marbre pour intérieur',1,1,29.90,50,0,600,600,10,22.500,1),
-(5,'Carrelage béton gris','Carrelage moderne effet béton',1,1,24.90,80,0,600,600,9,21.000,1),
-(6,'Mosaïque salle de bain','Mosaïque adaptée aux murs de salle de bain',3,1,19.90,100,0,300,300,8,18.000,1),
-(7,'Carrelage en marbre','Marbre turque',1,1,23.00,16,0,NULL,NULL,NULL,NULL,1);
+INSERT INTO `produits` VALUES (5,'Carrelage béton gris ','Carrelage moderne effet béton',1,1,24.90,80,0,600,600,9,21.000,1),(6,'Mosaïque salle de bain','Mosaïque adaptée aux murs de salle de bain',3,1,19.90,100,0,300,300,8,18.000,1),(7,'Carrelage en marbre','Marbre turque',1,1,23.00,16,0,NULL,NULL,NULL,NULL,1),(13,'','',1,1,0.00,0,0,NULL,NULL,NULL,NULL,1),(14,'','',1,1,0.00,0,0,NULL,NULL,NULL,NULL,1),(16,'','',1,1,0.00,0,0,NULL,NULL,NULL,NULL,1),(18,'','',1,1,0.00,0,0,NULL,NULL,NULL,NULL,1),(24,'Carrelage blanc italien salle de bain','1 metre sur 1 metre',1,1,50.00,300,0,NULL,NULL,NULL,NULL,1);
 /*!40000 ALTER TABLE `produits` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -335,12 +327,16 @@ CREATE TABLE `utilisateurs` (
   `nom` varchar(120) NOT NULL,
   `prenom` varchar(120) DEFAULT NULL,
   `email` varchar(190) NOT NULL,
+  `telephone` varchar(30) DEFAULT NULL,
+  `adresse` varchar(255) DEFAULT NULL,
+  `date_naissance` date DEFAULT NULL,
+  `photo_profil` varchar(500) DEFAULT NULL,
   `mot_de_passe` varchar(255) NOT NULL,
   `role` varchar(20) NOT NULL DEFAULT 'client',
   `actif` tinyint NOT NULL DEFAULT '1',
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_utilisateur`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -349,10 +345,9 @@ CREATE TABLE `utilisateurs` (
 
 LOCK TABLES `utilisateurs` WRITE;
 /*!40000 ALTER TABLE `utilisateurs` DISABLE KEYS */;
-INSERT INTO `utilisateurs` VALUES (1,'Neri','Gasparino','admin@gso.be','admin123','admin',1,'2026-06-15 22:01:19');
+INSERT INTO `utilisateurs` VALUES (6,'Demo','Admin','admin.demo@gso.test','0470000001','Adresse : Rue de démonstration 1','2000-01-01',NULL,'$2a$11$lfTb3Qc3JOZAv9ug.UoQN.WAXyBiiyCdYO0l4CEhX9rD4F9ysrLQi','admin',1,'2026-08-16 00:41:23'),(7,'Demo','Client','client.demo@gso.test','0470000002','Adresse : Rue de démonstration 2','2000-02-02',NULL,'$2a$11$O6bA7Hqfh.SOLHZJu9C0YupETRlXY6eF.EIEXtgeQ1MxzlEFfkee6','client',1,'2026-08-16 00:42:43');
 /*!40000 ALTER TABLE `utilisateurs` ENABLE KEYS */;
 UNLOCK TABLES;
-SET @@SESSION.SQL_LOG_BIN = @MYSQLDUMP_TEMP_LOG_BIN;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -363,4 +358,4 @@ SET @@SESSION.SQL_LOG_BIN = @MYSQLDUMP_TEMP_LOG_BIN;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-06-17 22:03:12
+-- Dump completed on 2026-08-16  0:58:25

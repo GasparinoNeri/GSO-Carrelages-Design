@@ -8,11 +8,18 @@ namespace GsoCarrelages.Core.UseCases;
 public class AuthUseCases : IAuthUseCases
 {
     private readonly IUserGateway _userGateway;
+    private readonly IClientGateway _clientGateway;
 
-    public AuthUseCases(IUserGateway userGateway)
+    public AuthUseCases(
+        IUserGateway userGateway,
+        IClientGateway clientGateway
+    )
     {
         _userGateway = userGateway
             ?? throw new ArgumentNullException(nameof(userGateway));
+
+        _clientGateway = clientGateway
+            ?? throw new ArgumentNullException(nameof(clientGateway));
     }
 
     public async Task<User?> LoginAsync(string email, string password)
@@ -71,7 +78,25 @@ public class AuthUseCases : IAuthUseCases
         user.Role = "client";
         user.Actif = true;
 
-        return await _userGateway.CreateAsync(user);
+        var userId = await _userGateway.CreateAsync(user);
+
+        var existingClient = await _clientGateway.GetByEmailAsync(user.Email);
+
+        if (existingClient is null)
+        {
+            var client = new Client
+            {
+                Nom = user.Nom,
+                Prenom = user.Prenom,
+                Email = user.Email,
+                Tel = user.Telephone,
+                Statut = "actif"
+            };
+
+            await _clientGateway.CreateAsync(client);
+        }
+
+        return userId;
     }
 
     public Task<User?> GetProfileAsync(long id)
